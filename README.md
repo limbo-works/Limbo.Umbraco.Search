@@ -4,6 +4,8 @@
 
 ## Installation
 
+The package works only with Umbraco 9. For Umbraco 8, see our older [Skybrud.Umbraco.Search](https://github.com/skybrud/Skybrud.Umbraco.Search) package.
+
 #### Via <a href="https://www.nuget.org/packages/Limbo.Umbraco.Search/1.0.0-alpha001" target="_blank">NuGet</a>:
 
 .NET CLI:
