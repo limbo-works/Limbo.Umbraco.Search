@@ -17,3 +17,7 @@ Package Manager:
 ```
 Install-Package Limbo.Umbraco.Search -Version 1.0.0-alpha001
 ```
+
+## Documentation
+
+*Hopefully coming soon...*
