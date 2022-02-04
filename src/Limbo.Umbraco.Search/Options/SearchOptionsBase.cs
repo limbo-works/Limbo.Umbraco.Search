@@ -8,6 +8,9 @@ using Limbo.Umbraco.Search.Options.Fields;
 
 namespace Limbo.Umbraco.Search.Options {
 
+    /// <summary>
+    /// Base class implementing the <see cref="ISearchOptions"/>, <see cref="IGetSearcherOptions"/> and <see cref="IDebugSearchOptions"/> interfaces.
+    /// </summary>
     public class SearchOptionsBase : IGetSearcherOptions, IDebugSearchOptions {
 
         #region Properties
@@ -37,6 +40,9 @@ namespace Limbo.Umbraco.Search.Options {
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance with default options.
+        /// </summary>
         public SearchOptionsBase() {
             Text = string.Empty;
             RootIds = null;
@@ -46,17 +52,35 @@ namespace Limbo.Umbraco.Search.Options {
 
         #region Member methods
 
+        /// <summary>
+        /// Returns the <see cref="ISearcher"/> to be used for the search.
+        /// </summary>
+        /// <param name="examineManager">A reference to the current <see cref="IExamineManager"/>.</param>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <returns>An instance of <see cref="ISearcher"/>, or <c>null</c> if the options class doesn't explicitly specify a searcher.</returns>
         public virtual ISearcher GetSearcher(IExamineManager examineManager, ISearchHelper searchHelper) {
             return GetSearcherByIndexName(examineManager, searchHelper, ExamineConstants.ExternalIndexName);
         }
 
+        /// <summary>
+        /// Returns the <see cref="IBooleanOperation"/> to be used for the search.
+        /// </summary>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <param name="searcher">The <see cref="ISearcher"/> to be used for the search.</param>
+        /// <param name="query">The current <see cref="IQuery"/>.</param>
+        /// <returns>An instance of <see cref="IBooleanOperation"/>.</returns>
         public virtual IBooleanOperation GetBooleanOperation(ISearchHelper searchHelper, ISearcher searcher, IQuery query) {
             return query.NativeQuery(string.Join(" AND ", GetQueryList(searchHelper)));
         }
 
+        /// <summary>
+        /// Returns the <see cref="QueryList"/> to be used for search.
+        /// </summary>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <returns>An insdtance of <see cref="QueryList"/>.</returns>
         protected virtual QueryList GetQueryList(ISearchHelper searchHelper) {
 
-            QueryList query = new QueryList();
+            QueryList query = new();
 
             SearchType(searchHelper, query);
             SearchText(searchHelper, query);
@@ -67,16 +91,31 @@ namespace Limbo.Umbraco.Search.Options {
 
         }
 
+        /// <summary>
+        /// Returns a instance of <see cref="FieldList"/> indicating the fields that should be used for the text based search.
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <returns>An instance of <see cref="FieldList"/>.</returns>
         protected virtual FieldList GetTextFields(ISearchHelper helper) {
             return new FieldList {
-                new Field("nodeName", 50),
-                new Field("title", 40),
-                new Field("teaser", 20)
+                new("nodeName", 50),
+                new("title", 40),
+                new("teaser", 20)
             };
         }
 
+        /// <summary>
+        /// Virtual method for limiting the search to specific content types.
+        /// </summary>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <param name="query">The query.</param>
         protected virtual void SearchType(ISearchHelper searchHelper, QueryList query) { }
 
+        /// <summary>
+        /// Virtual method for configuring the text based search.
+        /// </summary>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <param name="query">The query.</param>
         protected virtual void SearchText(ISearchHelper searchHelper, QueryList query) {
 
             if (string.IsNullOrWhiteSpace(Text)) return;
@@ -93,17 +132,35 @@ namespace Limbo.Umbraco.Search.Options {
             query.Add(fields.GetQuery(terms));
 
         }
-
+        
+        /// <summary>
+        /// Virtual method for limiting the search to specifi ancestors.
+        /// </summary>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <param name="query">The query.</param>
         protected virtual void SearchPath(ISearchHelper searchHelper, QueryList query) {
             if (RootIds == null || RootIds.Length == 0) return;
             query.Add("(" + string.Join(" OR ", from id in RootIds select "path_search:" + id) + ")");
         }
-
+        
+        /// <summary>
+        /// Virtual method for limiting the search to only searchable nodes (without the <c>hideFromSearch</c> flag).
+        /// </summary>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <param name="query">The query.</param>
         protected virtual void SearchHideFromSearch(ISearchHelper searchHelper, QueryList query) {
             if (DisableHideFromSearch) return;
             query.Add("hideFromSearch:0");
         }
 
+        /// <summary>
+        /// Virtual method for getting a searcher by it's parent <paramref name="indexName"/>.
+        /// </summary>
+        /// <param name="examineManager">A reference to the current <see cref="IExamineManager"/>.</param>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <param name="indexName">The name of the parent index.</param>
+        /// <returns>An instance of <see cref="ISearcher"/>.</returns>
+        /// <exception cref="Exception">If a mathing index isn't found, or the index doesn't specify a searcher, this method will throw an exception.</exception>
         protected virtual ISearcher GetSearcherByIndexName(IExamineManager examineManager, ISearchHelper searchHelper, string indexName) {
 
             // Get the index from the Examine manager

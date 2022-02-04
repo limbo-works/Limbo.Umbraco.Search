@@ -18,12 +18,15 @@ namespace Limbo.Umbraco.Search.Options.Sorting {
         /// The sort type of the property field.
         /// </summary>
         /// <remarks>
-        /// For FullTextSortable use <see cref="SortType.String"/> and for DateTime use <see cref="SortType.Long"/>.
+        /// For FullTextSortable use <see cref="Examine.Search.SortType.String"/> and for DateTime use
+        /// <see cref="Examine.Search.SortType.Long"/>.
         /// </remarks>
         SortType SortType { get; set; }
 
         /// <summary>
-        /// Gets or sets the order by which the results should be sorted. Possible values are <see cref="SortOrder.Ascending"/> and <see cref="Essentials.Collections.SortOrder.Descending"/>.
+        /// Gets or sets the order by which the results should be sorted. Possible values are
+        /// <see cref="Skybrud.Essentials.Collections.SortOrder.Ascending"/> and
+        /// <see cref="Skybrud.Essentials.Collections.SortOrder.Descending"/>.
         /// </summary>
         SortOrder SortOrder { get; set; }
 

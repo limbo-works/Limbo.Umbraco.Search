@@ -1,7 +1,10 @@
 ﻿using Examine;
 
 namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
-
+    
+    /// <summary>
+    /// Interface representing a condition for a field.
+    /// </summary>
     public interface IFieldCondition {
 
         /// <summary>

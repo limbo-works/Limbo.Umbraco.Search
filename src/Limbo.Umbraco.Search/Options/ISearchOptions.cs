@@ -3,6 +3,9 @@ using Examine.Search;
 
 namespace Limbo.Umbraco.Search.Options {
 
+    /// <summary>
+    /// Interface describing the options for an Examine based search.
+    /// </summary>
     public interface ISearchOptions {
 
         /// <summary>

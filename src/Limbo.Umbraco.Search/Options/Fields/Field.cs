@@ -1,5 +1,8 @@
 ﻿namespace Limbo.Umbraco.Search.Options.Fields {
 
+    /// <summary>
+    /// Class with information on how to search in a given field.
+    /// </summary>
     public class Field {
 
         #region Properties

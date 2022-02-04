@@ -52,7 +52,7 @@ namespace Limbo.Umbraco.Search.Extensions {
 
         /// <summary>
         /// If a field with <paramref name="key"/> doesn't already exist, a new field where the key is a combination of
-        /// <see cref="key"/> and <paramref name="suffix"/> will be added with <paramref name="value"/>.
+        /// <paramref name="key"/> and <paramref name="suffix"/> will be added with <paramref name="value"/>.
         /// </summary>
         /// <param name="e"></param>
         /// <param name="key">The key of the field.</param>
@@ -116,7 +116,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             string value = values.FirstOrDefault()?.ToString();
 
             // Parse the UDI's and adds as GUIDs instead (both N and D formats)
-            List<string> newValues = new List<string>();
+            List<string> newValues = new();
             foreach (string piece in StringUtils.ParseStringArray(value)) {
                 if (UdiParser.TryParse(piece, out GuidUdi udi)) {
                     newValues.Add(udi.Guid.ToString("N"));
@@ -232,7 +232,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             if (blockList == null) return e;
 
             // Determine the new key
-            newKey = newKey ?? $"{key}{newKeySuffix ?? "_search"}";
+            newKey ??= $"{key}{newKeySuffix ?? "_search"}";
 
             // Get the searchable text via the indexing helper
             try {

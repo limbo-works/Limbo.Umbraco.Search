@@ -45,9 +45,17 @@ namespace Limbo.Umbraco.Search.Models {
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new result list based on the specified <paramref name="options"/>, <paramref name="query"/>,
+        /// <paramref name="total"/> count and <paramref name="items"/>.
+        /// </summary>
+        /// <param name="options">The options used for making the search.</param>
+        /// <param name="query">The search query.</param>
+        /// <param name="total">The total amount of results returned by the search.</param>
+        /// <param name="items">The items representing the result of the search.</param>
         public SearchResultList(ISearchOptions options, IQuery query, long total, IEnumerable<ISearchResult> items) {
             Options = options;
-            IsDebug = options is IDebugSearchOptions debug && debug.IsDebug;
+            IsDebug = options is IDebugSearchOptions { IsDebug: true };
             Query = query;
             Total = total;
             Items = items;

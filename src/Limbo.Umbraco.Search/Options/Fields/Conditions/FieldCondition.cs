@@ -4,6 +4,9 @@ using Examine;
 
 namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
 
+    /// <summary>
+    /// Class representing a condition for a field.
+    /// </summary>
     public class FieldCondition : IFieldCondition {
 
         #region Properties
@@ -54,6 +57,11 @@ namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
 
         #region Member methods
 
+        /// <summary>
+        /// Returns whether the specified <paramref name="result"/> matches this condition.
+        /// </summary>
+        /// <param name="result">The result to check.</param>
+        /// <returns><c>true</c> if <paramref name="result"/> matches this condition; otherwise, <c>false</c>.</returns>
         public bool IsMatch(SearchResult result) {
 
             string[] values = result.GetValues(Alias).ToArray();

@@ -5,13 +5,19 @@ using Lucene.Net.QueryParsers.Classic;
 
 namespace Limbo.Umbraco.Search.Options.Fields {
 
+    /// <summary>
+    /// Class representing a test of fields.
+    /// </summary>
     public class FieldList : IEnumerable<Field> {
 
         private readonly List<Field> _fields;
 
         #region Properties
 
-        public static FieldList DefaultFields => GetFromStringArray(new[] { "nodeName_lci", "contentTeasertext_lci", "contentBody_lci" });
+        /// <summary>
+        /// Returns a new <see cref="FieldList"/> with the default fields.
+        /// </summary>
+        public static FieldList DefaultFields => GetFromStringArray(new[] { "nodeName_lci", "title_lci", "teaser_lci" });
 
         /// <summary>
         /// Gets the amount of fields added to to the list.
@@ -169,7 +175,8 @@ namespace Limbo.Umbraco.Search.Options.Fields {
             return string.Join(" AND ", searchTerms.ToArray());
 
         }
-
+        
+        /// <inheritdoc />
         public IEnumerator<Field> GetEnumerator() {
             return _fields.GetEnumerator();
         }

@@ -4,12 +4,18 @@ using System.Linq;
 
 namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
 
+    /// <summary>
+    /// Class representing a list of field conditions.
+    /// </summary>
     public class FieldConditionList : IEnumerable<FieldCondition> {
 
         private readonly List<FieldCondition> _list;
 
         #region Properties
 
+        /// <summary>
+        /// Gets the amount of field conditions that have been added to the list.
+        /// </summary>
         public int Count => _list.Count;
 
         #endregion
@@ -51,6 +57,7 @@ namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
             _list.AddRange(conditions);
         }
 
+        /// <inheritdoc />
         public IEnumerator<FieldCondition> GetEnumerator() {
             return _list.GetEnumerator();
         }
@@ -62,11 +69,19 @@ namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
         #endregion
 
         #region Operator overloading
-
+        
+        /// <summary>
+        /// Initializes a new list populated with the specified <paramref name="conditions"/>.
+        /// </summary>
+        /// <param name="conditions">A collection of conditions.</param>
         public static implicit operator FieldConditionList(List<FieldCondition> conditions) {
             return new FieldConditionList(conditions);
         }
-
+        
+        /// <summary>
+        /// Initializes a new list populated with the specified <paramref name="conditions"/>.
+        /// </summary>
+        /// <param name="conditions">A collection of conditions.</param>
         public static implicit operator FieldConditionList(FieldCondition[] conditions) {
             return new FieldConditionList(conditions);
         }
