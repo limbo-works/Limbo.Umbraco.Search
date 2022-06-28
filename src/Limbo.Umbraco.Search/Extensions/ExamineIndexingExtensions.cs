@@ -142,7 +142,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="e"></param>
         /// <param name="key">The key of the field.</param>
         public static IndexingItemEventArgs IndexDate(this IndexingItemEventArgs e, string key) {
-            return IndexDate(e, key, "yyyyMMddHHmm00000");
+            return IndexDateWithFormat(e, "yyyyMMddHHmm00000", key);
         }
 
         /// <summary>
