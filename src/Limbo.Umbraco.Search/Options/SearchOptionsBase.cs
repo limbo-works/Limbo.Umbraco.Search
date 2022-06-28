@@ -59,7 +59,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
         /// <returns>An instance of <see cref="ISearcher"/>, or <c>null</c> if the options class doesn't explicitly specify a searcher.</returns>
         public virtual ISearcher GetSearcher(IExamineManager examineManager, ISearchHelper searchHelper) {
-            return GetSearcherByIndexName(examineManager, searchHelper, ExamineConstants.ExternalIndexName);
+            return GetSearcherByIndexName(examineManager, searchHelper, ExamineIndexes.ExternalIndexName);
         }
 
         /// <summary>

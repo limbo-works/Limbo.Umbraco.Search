@@ -294,18 +294,18 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="ignoreIds">The IDs for which it self and it's descendants should be hidden.</param>
         public static IndexingItemEventArgs AddHideFromSearch(this IndexingItemEventArgs e, HashSet<int> ignoreIds) {
 
-            e.ValueSet.Values.TryGetValue(ExamineConstants.Fields.Path, out List<object> objList);
+            e.ValueSet.Values.TryGetValue(ExamineFields.Path, out List<object> objList);
             int[] ids = StringUtils.ParseInt32Array(objList?.FirstOrDefault()?.ToString());
 
             if (ignoreIds != null && ids.Any(ignoreIds.Contains)) {
-                e.ValueSet.Set(ExamineConstants.Fields.HideFromSearch, "1");
+                e.ValueSet.Set(ExamineFields.HideFromSearch, "1");
                 return e;
             }
 
-            if (e.ValueSet.Values.ContainsKey(ExamineConstants.Fields.HideFromSearch)) return e;
+            if (e.ValueSet.Values.ContainsKey(ExamineFields.HideFromSearch)) return e;
 
             // create empty value
-            e.ValueSet.TryAdd(ExamineConstants.Fields.HideFromSearch, "0");
+            e.ValueSet.TryAdd(ExamineFields.HideFromSearch, "0");
 
             return e;
 

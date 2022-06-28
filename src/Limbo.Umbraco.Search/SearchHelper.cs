@@ -450,7 +450,7 @@ namespace Limbo.Umbraco.Search {
                     break;
 
                 default:
-                    if (_examine.TryGetIndex(ExamineConstants.ExternalIndexName, out IIndex index)) {
+                    if (_examine.TryGetIndex(ExamineIndexes.ExternalIndexName, out IIndex index)) {
                         searcher = index.Searcher;
                         if (searcher != null) return searcher;
                     }

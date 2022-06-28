@@ -19,7 +19,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
         public static T AppendNodeTypeAlias<T>(this T list, string nodeTypeAlias) where T : QueryList {
             if (string.IsNullOrWhiteSpace(nodeTypeAlias)) throw new ArgumentNullException(nameof(nodeTypeAlias));
-            list?.Add($"{ExamineConstants.Fields.NodeTypeAlias}:{nodeTypeAlias}");
+            list?.Add($"{ExamineFields.NodeTypeAlias}:{nodeTypeAlias}");
             return list;
         }
 
@@ -32,7 +32,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
         public static T AppendNodeTypeAliases<T>(this T list, params string[] nodeTypeAliases) where T : QueryList {
             if (nodeTypeAliases == null || nodeTypeAliases.Length == 0) return list;
-            list?.Add($"{ExamineConstants.Fields.NodeTypeAlias}:({string.Join(" ", nodeTypeAliases)})");
+            list?.Add($"{ExamineFields.NodeTypeAlias}:({string.Join(" ", nodeTypeAliases)})");
             return list;
         }
 
@@ -56,7 +56,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
         public static T AppendNodeTypeAliases<T>(this T list, ContentTypeList contentTypes) where T : QueryList {
             if (contentTypes == null || contentTypes.Count == 0) return list;
-            list?.Add($"{ExamineConstants.Fields.NodeTypeAlias}:({string.Join(" ", contentTypes.ToArray())})");
+            list?.Add($"{ExamineFields.NodeTypeAlias}:({string.Join(" ", contentTypes.ToArray())})");
             return list;
         }
 
@@ -67,7 +67,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
         public static T AppendHideFromSearch<T>(this T list) where T : QueryList {
-            list?.Add($"{ExamineConstants.Fields.HideFromSearch}:0");
+            list?.Add($"{ExamineFields.HideFromSearch}:0");
             return list;
         }
 
@@ -79,7 +79,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="ancestorId">The ID of the ancestor.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
         public static T AppendAncestor<T>(this T list, int ancestorId) where T : QueryList {
-            list?.Add($"{ExamineConstants.Fields.PathSearch}:{ancestorId}");
+            list?.Add($"{ExamineFields.PathSearch}:{ancestorId}");
             return list;
         }
 
@@ -92,7 +92,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
         public static T AppendAncestors<T>(this T list, params int[] ancestorIds) where T : QueryList {
             if (ancestorIds == null || ancestorIds.Length == 0) return list;
-            list?.Add($"{ExamineConstants.Fields.PathSearch}:({string.Join(" ", from id in ancestorIds select id)})");
+            list?.Add($"{ExamineFields.PathSearch}:({string.Join(" ", from id in ancestorIds select id)})");
             return list;
         }
 
