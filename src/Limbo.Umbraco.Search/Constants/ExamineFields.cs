@@ -100,6 +100,11 @@
         /// </summary>
         public const string WriterName = "writerName";
 
+        /// <summary>
+        /// Gets the key of the field indicating the boost words of a given page.
+        /// </summary>
+        public const string BoostWords = "searchBoostWords";
+
     }
 
 }

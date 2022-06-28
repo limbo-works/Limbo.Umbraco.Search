@@ -5,6 +5,9 @@ using Examine;
 using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Indexing;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using Skybrud.Essentials.Json;
+using Skybrud.Essentials.Json.Extensions;
 using Skybrud.Essentials.Strings;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.Blocks;
@@ -342,6 +345,59 @@ namespace Limbo.Umbraco.Search.Extensions {
                     e.ValueSet.Add(lciKey, value.ToString()?.ToLowerInvariant());
                 }
 
+            }
+
+            return e;
+
+        }
+
+        /// <summary>
+        /// Splits the boost words of the <see cref="ExamineFields.BoostWords"/> field into individual fields.
+        /// </summary>
+        /// <param name="e">The event args for the item being indexed.</param>
+        public static IndexingItemEventArgs AddBoostWords(this IndexingItemEventArgs e) {
+            return AddBoostWords(e, ExamineFields.BoostWords);
+        }
+
+        /// <summary>
+        /// Splits the boost words of the specified <paramref name="field"/> into individual fields.
+        /// </summary>
+        /// <param name="e">The event args for the item being indexed.</param>
+        /// <param name="field">The name of the field holding the boost words.</param>
+        public static IndexingItemEventArgs AddBoostWords(this IndexingItemEventArgs e, string field) {
+
+            // Skip non-content types
+            if (e.ValueSet.Category != IndexTypes.Content) return e;
+
+            // Attempt to the first string value of the specified field
+            if (!TryGetString(e, field, out string rawValue)) return e;
+
+            // Attempt to parse the JSON array
+            if (!JsonUtils.TryParseJsonArray(rawValue, out JArray array)) return e;
+
+            // Initialize a new dictionary for keeping track of the boost words and their boosted value
+            Dictionary<int, List<string>> temp = new();
+
+            // Iterate through the array
+            foreach (JToken token in array) {
+
+                // Should always be JObject, but doesn't hurt to check
+                if (token is not JObject obj) continue;
+
+                // Extract the values from the JSON
+                int boost = obj.GetInt32("boost");
+                string value = obj.GetString("value")?.Trim().ToLowerInvariant();
+                if (boost <= 0 || string.IsNullOrWhiteSpace(value)) continue;
+
+                // Add the individual words to the dictionary by their boost value
+                if (!temp.TryGetValue(boost, out List<string> list)) temp.Add(boost, list = new List<string>());
+                list.Add(value);
+
+            }
+
+            // Add new fields for each boost value and their respective words
+            foreach ((int boost, List<string> list) in temp) {
+                e.ValueSet.TryAdd($"{ExamineFields.BoostWords}_{boost}", string.Join(" ", list));
             }
 
             return e;
