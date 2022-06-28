@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <RootNamespace>Limbo.Umbraco.Search</RootNamespace>
-    <Version>1.0.0-alpha001</Version>
+    <VersionPrefix>1.0.0-alpha001</VersionPrefix>
+    <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Product>Limbo.Umbraco.Search</Product>
     <Authors>Anders Bjerner</Authors>
