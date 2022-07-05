@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Examine;
 using Limbo.Umbraco.Search.Constants;
@@ -9,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json;
 using Skybrud.Essentials.Json.Extensions;
 using Skybrud.Essentials.Strings;
+using Skybrud.Essentials.Time.Iso8601;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Models.PublishedContent;
@@ -157,7 +159,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="e"></param>
         /// <param name="key">The key of the field.</param>
         public static IndexingItemEventArgs IndexDate(this IndexingItemEventArgs e, string key) {
-            return IndexDateWithFormat(e, "yyyyMMddHHmm00000", key);
+            return IndexDateWithFormat(e, ExamineDateFormats.Sortable, key);
         }
 
         /// <summary>
@@ -187,16 +189,39 @@ namespace Limbo.Umbraco.Search.Extensions {
 
             // Attempt to get the values of the specified field
             if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) return e;
+            
+            // Try to parse the first value of the field
+            if (TryParseDateTime(values.FirstOrDefault(), out DateTime dateTime)) return e;
+
+            // Add a new range field with the date in the specified format
+            e.ValueSet.TryAdd($"{key}_range", dateTime.ToString(format));
+
+            return e;
+
+        }
+
+        /// <summary>
+        /// Adds additional fields to make the date and time of the field with the specified <paramref name="key"/> more searchable.
+        /// </summary>
+        /// <param name="e">The event args for the item being indexed.</param>
+        /// <param name="key">The key of the field holding the date and time.</param>
+        public static IndexingItemEventArgs IndexDateExtended(this IndexingItemEventArgs e, string key) {
+
+            // Attempt to get the values of the specified field
+            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) return e;
 
             // Get the first value of the field
             switch (values.FirstOrDefault()) {
 
                 case DateTime dt:
-
-                    e.ValueSet.TryAdd($"{key}_range", dt.ToString(format));
+                    IndexDateTime(e, key, dt);
                     break;
 
-                    // TODO: Any other types we should handle?
+                case string str:
+                    if (DateTime.TryParseExact(str, ExamineDateFormats.Umbraco, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out DateTime dt2)) {
+                        IndexDateTime(e, key, dt2);
+                    }
+                    break;
 
             }
 
@@ -430,6 +455,34 @@ namespace Limbo.Umbraco.Search.Extensions {
 
             return e;
 
+        }
+
+        private static bool TryParseDateTime(object value, out DateTime result) {
+
+            switch (value) {
+
+                case DateTime dt:
+                    result = dt;
+                    return true;
+
+                case string str:
+                    return DateTime.TryParseExact(str, ExamineDateFormats.Umbraco, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out result);
+
+                default:
+                    result = default;
+                    return false;
+
+            }
+
+        }
+
+        private static void IndexDateTime(IndexingItemEventArgs e, string key, DateTime dateTime) {
+            e.ValueSet.TryAdd($"{key}_search", dateTime.ToString(ExamineDateFormats.Sortable));
+            e.ValueSet.TryAdd($"{key}_ticks", dateTime.Ticks.ToString());
+            e.ValueSet.TryAdd($"{key}_year", dateTime.Year);
+            e.ValueSet.TryAdd($"{key}_month", dateTime.Month);
+            e.ValueSet.TryAdd($"{key}_day", dateTime.Day);
+            e.ValueSet.TryAdd($"{key}_week", Iso8601Utils.GetWeekNumber(dateTime));
         }
 
     }
