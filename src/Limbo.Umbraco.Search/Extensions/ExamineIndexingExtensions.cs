@@ -23,6 +23,10 @@ namespace Limbo.Umbraco.Search.Extensions {
     /// </summary>
     public static class ExamineIndexingExtensions {
 
+        private static readonly string[] _defaultLciFields = {
+            ExamineFields.NodeName, ExamineFields.Title, ExamineFields.Teaser
+        };
+
         /// <summary>
         /// Attemps to get the first string value of a field with the specified <paramref name="key"/>.
         /// </summary>
@@ -319,7 +323,34 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// </summary>
         /// <param name="e"></param>
         public static IndexingItemEventArgs AddDefaultLciFields(this IndexingItemEventArgs e) {
-            return AddLciFields(e, "nodeName", "title", "teaser");
+            return AddLciFields(e, _defaultLciFields);
+        }
+
+        /// <summary>
+        /// Adds a new field with a lower cased version of the specified <paramref name="field"/>.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="field">The key of the field that should have a lower cased version.</param>
+        public static IndexingItemEventArgs AddLciField(this IndexingItemEventArgs e, string field) {
+            
+            if (string.IsNullOrWhiteSpace(field)) throw new ArgumentNullException(nameof(field));
+
+            // Skip non-content types
+            if (e.ValueSet.Category != IndexTypes.Content) return e;
+            
+            // Calculate the LCI key
+            string lciKey = $"{field}_lci";
+
+            // Skip if the LCI key already exists
+            if (e.ValueSet.Values.ContainsKey(lciKey)) return e;
+
+            // Get each value with "key" and add the lowwer cased versions to a new field
+            foreach (object value in e.ValueSet.GetValues(field)) {
+                e.ValueSet.Add(lciKey, value.ToString()?.ToLowerInvariant());
+            }
+
+            return e;
+
         }
 
         /// <summary>
@@ -333,18 +364,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             if (e.ValueSet.Category != IndexTypes.Content) return e;
 
             foreach (string key in fields) {
-
-                // Calculate the LCI key
-                string lciKey = $"{key}_lci";
-
-                // Skip if the LCI key already exists
-                if (e.ValueSet.Values.ContainsKey(lciKey)) continue;
-
-                // Get each value with "key" and add the lowwer cased versions to a new field
-                foreach (object value in e.ValueSet.GetValues(key)) {
-                    e.ValueSet.Add(lciKey, value.ToString()?.ToLowerInvariant());
-                }
-
+                AddLciField(e, key);
             }
 
             return e;

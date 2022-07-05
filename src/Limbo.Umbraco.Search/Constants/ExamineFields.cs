@@ -19,7 +19,12 @@
         /// Gets the key of the field with the numeric ID of the node.
         /// </summary>
         public const string NodeId = "__NodeId";
-        
+
+        /// <summary>
+        /// Gets the key of the field with the name of the node.
+        /// </summary>
+        public const string NodeName = "nodeName";
+
         /// <summary>
         /// Gets the key of the field indicating the node type alias of the node.
         /// </summary>
@@ -44,6 +49,16 @@
         /// Gets the key of the field indicating whether the node should be included in search results. Notice that this field does not exist in Umbraco by default.
         /// </summary>
         public const string HideFromSearch = "hideFromSearch";
+
+        /// <summary>
+        /// Gets the key of the field with the teaser of the node.
+        /// </summary>
+        public const string Teaser = "teaser";
+
+        /// <summary>
+        /// Gets the key of the field with the title of the node.
+        /// </summary>
+        public const string Title = "title";
 
         /// <summary>
         /// Gets the key of the field indicationg the create date of the node.
