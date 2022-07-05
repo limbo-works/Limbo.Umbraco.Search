@@ -78,6 +78,14 @@ namespace Limbo.Umbraco.Search.Extensions {
         }
 
         /// <summary>
+        /// Adds a search-friendly version of the <c>path</c> field where the IDs are separated by spaces instead of commas.
+        /// </summary>
+        /// <param name="e">The event arguments about the node being indexed.</param>
+        public static IndexingItemEventArgs IndexPath(this IndexingItemEventArgs e) {
+            return IndexCsv(e, ExamineFields.Path);
+        }
+
+        /// <summary>
         /// If a field with <paramref name="key"/> exists, a new field in which commas in the value has been replaced
         /// by spaces, making each value searchable.
         ///
