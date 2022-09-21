@@ -32,15 +32,83 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <summary>
         /// Attemps to get the first string value of a field with the specified <paramref name="key"/>.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">The event arguments about the node being indexed.</param>
         /// <param name="key">The key of the field.</param>
         /// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key; otherwise, <c>false</c>.</returns>
         public static bool TryGetString(this IndexingItemEventArgs e, string key, out string value) {
-            value = e.ValueSet.Values.TryGetValue(key, out List<object> values) ? values.FirstOrDefault() as string : null;
+            value = e.ValueSet.Values.TryGetValue(key, out List<object> values) ? values.FirstOrDefault()?.ToString() : null;
             return value != null;
         }
+        
+        /// <summary>
+        /// Attempts to get the first value of the field with the specified <paramref name="key"/>. If the value is not already an <see cref="int"/>, the method will try to convert it.
+        /// </summary>
+        /// <param name="e">The event arguments about the node being indexed.</param>
+        /// <param name="key">The key of the field.</param>
+        /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, <c>0</c>. This parameter is passed uninitialized.</param>
+        /// <returns><c>true</c> if the value set contains a field with the specified key; otherwise, <c>false</c>.</returns>
+        public static bool TryGetInt32(this IndexingItemEventArgs e, string key, out int result) {
 
+            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) {
+                result = default;
+                return false;
+            }
+
+            result = 0;
+
+            switch (values.FirstOrDefault()) {
+
+                case int numeric:
+                    result = numeric;
+                    return true;
+
+                case string str:
+                    if (!int.TryParse(str, out int temp)) return false;
+                    result = temp;
+                    return true;
+
+                default:
+                    return false;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Attempts to get the first value of the field with the specified <paramref name="key"/>. If the value is not already an <see cref="int"/>, the method will try to convert it.
+        /// </summary>
+        /// <param name="e">The event arguments about the node being indexed.</param>
+        /// <param name="key">The key of the field.</param>
+        /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
+        /// <returns><c>true</c> if the value set contains a field with the specified key; otherwise, <c>false</c>.</returns>
+        public static bool TryGetInt32(this IndexingItemEventArgs e, string key, out int? result) {
+
+            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) {
+                result = default;
+                return false;
+            }
+
+            result = null;
+
+            switch (values.FirstOrDefault()) {
+
+                case int numeric:
+                    result = numeric;
+                    return true;
+
+                case string str:
+                    if (!int.TryParse(str, out int temp)) return false;
+                    result = temp;
+                    return true;
+
+                default:
+                    return false;
+
+            }
+
+        }
+        
         /// <summary>
         /// Adds a new field with <paramref name="key"/> and <paramref name="value"/> if the field does not already exist.
         /// </summary>
@@ -148,6 +216,26 @@ namespace Limbo.Umbraco.Search.Extensions {
 
             return e;
 
+        }
+
+        /// <summary>
+        /// Adds a new field with the specified <paramref name="key"/> and <paramref name="value"/>. Examine doesn't support boolean, so the value will be indexed as either <c>1</c> or <c>0</c>.
+        /// </summary>
+        /// <param name="e">The event arguments about the node being indexed.</param>
+        /// <param name="key">The key of the new field.</param>
+        /// <param name="value">The boolean value to index.</param>
+        public static void AddBoolean(this IndexingItemEventArgs e, string key, bool value) {
+            e.ValueSet.TryAdd(key, value ? "1" : "0");
+        }
+
+        /// <summary>
+        /// If a field exists with the specified <paramref name="key"/>, and the value matches an integer, a GUID representation of the value will be added to a field with <paramref name="newKey"/>.
+        /// </summary>
+        /// <param name="e">The event arguments about the node being indexed.</param>
+        /// <param name="key">The key of the existing field to look for.</param>
+        /// <param name="newKey">The key of the new field.</param>
+        public static void AddInt32AsGuid(this IndexingItemEventArgs e, string key, string newKey) {
+            if (e.TryGetInt32(key, out int value)) e.ValueSet.TryAdd(newKey, value.ToGuid());
         }
 
         /// <summary>
