@@ -13,6 +13,7 @@ namespace Limbo.Umbraco.Search.Composers {
             builder.Services.AddTransient<ISearchHelper, SearchHelper>();
             builder.Services.AddTransient<IIndexingHelper, IndexingHelper>();
         }
+
     }
 
 }

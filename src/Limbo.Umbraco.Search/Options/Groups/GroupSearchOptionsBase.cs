@@ -12,7 +12,7 @@ namespace Limbo.Umbraco.Search.Options.Groups {
         /// <summary>
         /// Gets the text parameter of the group.
         /// </summary>
-        public string Text { get; }
+        public string? Text { get; }
 
         /// <summary>
         /// Gets the current limit of the group.

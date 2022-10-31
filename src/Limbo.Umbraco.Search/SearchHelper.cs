@@ -40,7 +40,7 @@ namespace Limbo.Umbraco.Search {
         /// <summary>
         /// Dictionary describing how certain characters should be replaced in search queries.
         /// </summary>
-        protected Dictionary<char, string> Diacritics { get; } = new Dictionary<char, string> {
+        protected Dictionary<char, string> Diacritics { get; } = new() {
             
             // Examine/Lucene converts "æ" to "ae"
             { 'æ', "ae" },
@@ -205,7 +205,7 @@ namespace Limbo.Umbraco.Search {
 
             sw.Stop();
 
-            if (options is IDebugSearchOptions debug && debug.IsDebug) {
+            if (options is IDebugSearchOptions { IsDebug: true }) {
                 _logger.LogDebug("Search of type {Type} completed in {Milliseconds} with {Query}", options.GetType().FullName, sw.ElapsedMilliseconds, query);
             }
 
@@ -355,7 +355,7 @@ namespace Limbo.Umbraco.Search {
 
             string normalizedString = input.Normalize(NormalizationForm.FormD);
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             foreach (char c in normalizedString) {
 
@@ -387,7 +387,7 @@ namespace Limbo.Umbraco.Search {
 
             string normalizedString = input.Normalize(NormalizationForm.FormD);
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             foreach (char c in normalizedString) {
 

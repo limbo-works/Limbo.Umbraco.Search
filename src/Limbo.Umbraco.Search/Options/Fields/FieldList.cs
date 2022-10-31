@@ -35,7 +35,7 @@ namespace Limbo.Umbraco.Search.Options.Fields {
         /// Returns whether at least one field has a fuzzy value.
         /// </summary>
         public bool HasFuzzyValues {
-            get { return _fields.Any(x => x.Fuzz != null && x.Fuzz > 0 && x.Fuzz < 1); }
+            get { return _fields.Any(x => x.Fuzz is > 0 and < 1); }
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Limbo.Umbraco.Search.Options.Fields {
         /// <returns>The raw Examine query.</returns>
         public virtual string GetQuery(string[] terms) {
 
-            List<string> searchTerms = new List<string>();
+            List<string> searchTerms = new();
 
             foreach (string term in terms) {
 
@@ -159,7 +159,7 @@ namespace Limbo.Umbraco.Search.Options.Fields {
 
                     // Fuzzy
                     if (HasFuzzyValues) {
-                        t += string.Join(" OR ", _fields.Where(x => x.Fuzz != null && x.Fuzz > 0 && x.Fuzz < 1).Select(fieldOption => string.Format("{0}:{1}~{2}", fieldOption.FieldName, escapedTerm, fieldOption.Fuzz.ToString())).ToArray());
+                        t += string.Join(" OR ", _fields.Where(x => x.Fuzz is > 0 and < 1).Select(fieldOption => string.Format("{0}:{1}~{2}", fieldOption.FieldName, escapedTerm, fieldOption.Fuzz.ToString())).ToArray());
                         t += " OR ";
                     }
 

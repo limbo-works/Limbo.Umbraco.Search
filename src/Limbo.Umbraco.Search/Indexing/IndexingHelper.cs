@@ -10,6 +10,8 @@ using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Extensions;
 
+// ReSharper disable SuspiciousTypeConversion.Global
+
 namespace Limbo.Umbraco.Search.Indexing {
 
     /// <summary>
@@ -19,35 +21,35 @@ namespace Limbo.Umbraco.Search.Indexing {
 
         /// <inheritdoc />
         public virtual string GetSearchableText(object value, string? culture = null, string? segment = null) {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             using (TextWriter writer = new StringWriter(sb)) WriteValue(writer, value, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
         public virtual string GetSearchableText(IPublishedElement element, string? culture = null, string? segment = null) {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             using (TextWriter writer = new StringWriter(sb)) WriteElement(writer, element, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
         public virtual string GetSearchableText(BlockListModel blockList, string? culture = null, string? segment = null) {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             using (TextWriter writer = new StringWriter(sb)) WriteBlockList(writer, blockList, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
         public virtual string GetSearchableText(BlockListItem blockListItem, string? culture = null, string? segment = null) {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             using (TextWriter writer = new StringWriter(sb)) WriteBlockListItem(writer, blockListItem, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
         public virtual string GetSearchableText(JToken token, string? culture = null, string? segment = null) {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             using (TextWriter writer = new StringWriter(sb)) WriteJsonToken(writer, token, culture, segment);
             return sb.ToString();
         }
@@ -108,7 +110,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         }
 
         /// <inheritdoc />
-        public virtual void WriteBlockList(TextWriter writer, BlockListModel blockList, string? culture = null, string? segment = null) {
+        public virtual void WriteBlockList(TextWriter writer, BlockListModel? blockList, string? culture = null, string? segment = null) {
             if (blockList == null) return;
             foreach (BlockListItem block in blockList) {
                 WriteBlockListItem(writer, block, culture, segment);
@@ -116,13 +118,13 @@ namespace Limbo.Umbraco.Search.Indexing {
         }
 
         /// <inheritdoc />
-        public virtual void WriteBlockListItem(TextWriter writer, BlockListItem blockListItem, string? culture = null, string? segment = null) {
+        public virtual void WriteBlockListItem(TextWriter writer, BlockListItem? blockListItem, string? culture = null, string? segment = null) {
             if (blockListItem == null) return;
             WriteElement(writer, blockListItem.Content, culture, segment);
         }
 
         /// <inheritdoc />
-        public virtual void WriteJsonToken(TextWriter writer, JToken token, string? culture = null, string? segment = null) {
+        public virtual void WriteJsonToken(TextWriter writer, JToken? token, string? culture = null, string? segment = null) {
 
             // Check the type of "token" to detect null values, objects and arrays
             switch (token) {
@@ -175,7 +177,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         }
 
         /// <inheritdoc />
-        public virtual void WriteJsonArray(TextWriter writer, JArray array, string? culture = null, string? segment = null) {
+        public virtual void WriteJsonArray(TextWriter writer, JArray? array, string? culture = null, string? segment = null) {
             if (array == null) return;
             foreach (JToken item in array) WriteJsonToken(writer, item, culture, segment);
         }
