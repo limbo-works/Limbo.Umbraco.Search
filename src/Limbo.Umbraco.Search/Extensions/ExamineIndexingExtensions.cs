@@ -37,7 +37,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key; otherwise, <c>false</c>.</returns>
         public static bool TryGetString(this IndexingItemEventArgs e, string key, out string value) {
-            value = e.ValueSet.Values.TryGetValue(key, out List<object> values) ? values.FirstOrDefault()?.ToString() : null;
+            value = e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object> values) ? values.FirstOrDefault()?.ToString() : null;
             return value != null;
         }
         
@@ -50,7 +50,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <returns><c>true</c> if the value set contains a field with the specified key; otherwise, <c>false</c>.</returns>
         public static bool TryGetInt32(this IndexingItemEventArgs e, string key, out int result) {
 
-            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) {
+            if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object> values)) {
                 result = default;
                 return false;
             }
@@ -84,7 +84,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <returns><c>true</c> if the value set contains a field with the specified key; otherwise, <c>false</c>.</returns>
         public static bool TryGetInt32(this IndexingItemEventArgs e, string key, out int? result) {
 
-            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) {
+            if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object> values)) {
                 result = default;
                 return false;
             }
@@ -167,7 +167,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         public static IndexingItemEventArgs IndexCsv(this IndexingItemEventArgs e, string key) {
 
             // Attempt to get the values of the specified field
-            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) return e;
+            if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object> values)) return e;
 
             // Get the first value and replace all commas with an empty space
             string value = values.FirstOrDefault()?.ToString()?.Replace(',', ' ');
@@ -195,7 +195,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         public static IndexingItemEventArgs IndexUdis(this IndexingItemEventArgs e, string key) {
 
             // Attempt to get the values of the specified field
-            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) return e;
+            if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object> values)) return e;
 
             // Get the first value of the field
             string value = values.FirstOrDefault()?.ToString();
@@ -276,7 +276,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         public static IndexingItemEventArgs IndexDateWithFormat(this IndexingItemEventArgs e, string format, string key) {
 
             // Attempt to get the values of the specified field
-            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) return e;
+            if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object> values)) return e;
             
             // Try to parse the first value of the field
             if (TryParseDateTime(values.FirstOrDefault(), out DateTime dateTime)) return e;
@@ -296,7 +296,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         public static IndexingItemEventArgs IndexDateExtended(this IndexingItemEventArgs e, string key) {
 
             // Attempt to get the values of the specified field
-            if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) return e;
+            if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object> values)) return e;
 
             // Get the first value of the field
             switch (values.FirstOrDefault()) {
@@ -422,7 +422,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="ignoreIds">The IDs for which it self and it's descendants should be hidden.</param>
         public static IndexingItemEventArgs AddHideFromSearch(this IndexingItemEventArgs e, HashSet<int> ignoreIds) {
 
-            e.ValueSet.Values.TryGetValue(ExamineFields.Path, out List<object> objList);
+            e.ValueSet.Values.TryGetValue(ExamineFields.Path, out IReadOnlyList<object> objList);
             int[] ids = StringUtils.ParseInt32Array(objList?.FirstOrDefault()?.ToString());
 
             if (ignoreIds != null && ids.Any(ignoreIds.Contains)) {

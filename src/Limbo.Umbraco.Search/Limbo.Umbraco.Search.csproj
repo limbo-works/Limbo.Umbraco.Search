@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5</TargetFramework>
+    <TargetFramework>net6</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.0.0-alpha004</VersionPrefix>
+    <VersionPrefix>2.0.0-alpha001</VersionPrefix>
     <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Product>Limbo.Umbraco.Search</Product>
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © 2022</Copyright>
-    <Description>Search package for Umbraco 9.</Description>
+    <Description>Search package for Umbraco 10.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -26,10 +26,10 @@
   <ItemGroup>
     <PackageReference Include="Skybrud.Essentials" Version="1.1.42" />
     <PackageReference Include="Skybrud.Essentials.AspNetCore" Version="1.0.0-alpha006" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0" />
-    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="9.0.0" />
-    <PackageReference Include="Umbraco.Cms.Web.Common" Version="9.0.0" />
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="9.0.0" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="10.0.0" />
+    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="10.0.0" />
+    <PackageReference Include="Umbraco.Cms.Web.Common" Version="10.0.0" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
