@@ -9,11 +9,17 @@
   </tr>
   <tr>
     <td><strong>Umbraco:</strong></td>
-    <td>Umbraco 9</td>
+    <td>
+      Umbraco 10      
+      <sub><sup>(formerly <a href="https://github.com/limbo-works/Limbo.Umbraco.Search/tree/v1/main">Umbraco 9</a>)</sup></sub>
+    </td>
   </tr>
   <tr>
     <td><strong>Target Framework:</strong></td>
-    <td>.NET 5</td>
+    <td>
+      .NET 6
+      <sub><sup>(formerly <a href="https://github.com/limbo-works/Limbo.Umbraco.Search/tree/v1/main">.NET 5</a>)</sup></sub>
+    </td>
   </tr>
 </table>
 
@@ -21,18 +27,18 @@
 
 ## Installation
 
-The package works only with Umbraco 9. For Umbraco 8, see our older [Skybrud.Umbraco.Search](https://github.com/skybrud/Skybrud.Umbraco.Search) package.
+The package works only with Umbraco 10. For Umbraco 9, see the [`v1/main` branch](https://github.com/limbo-works/Limbo.Umbraco.Search/tree/v1/main). For Umbraco 8, see our older [Skybrud.Umbraco.Search](https://github.com/skybrud/Skybrud.Umbraco.Search) package.
 
-#### Via <a href="https://www.nuget.org/packages/Limbo.Umbraco.Search/1.0.0-alpha004" target="_blank">NuGet</a>:
+#### Via <a href="https://www.nuget.org/packages/Limbo.Umbraco.Search/2.0.0-alpha001" target="_blank">NuGet</a>:
 
 .NET CLI:
 ```
-dotnet add package Limbo.Umbraco.Search --version 1.0.0-alpha004
+dotnet add package Limbo.Umbraco.Search --version 2.0.0-alpha001
 ```
 
 Package Manager:
 ```
-Install-Package Limbo.Umbraco.Search -Version 1.0.0-alpha004
+Install-Package Limbo.Umbraco.Search -Version 2.0.0-alpha001
 ```
 
 ## Documentation
