@@ -17,7 +17,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
         /// <returns>The textual representation</returns>
-        string GetSearchableText(object value, string culture = null, string segment = null);
+        string GetSearchableText(object value, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Returns a textual representation of the specified published <paramref name="element"/>.
@@ -26,7 +26,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
         /// <returns>The textual representation</returns>
-        string GetSearchableText(IPublishedElement element, string culture = null, string segment = null);
+        string GetSearchableText(IPublishedElement element, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Returns a textual representation of the specified <paramref name="blockList"/>.
@@ -35,7 +35,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
         /// <returns>The textual representation</returns>
-        string GetSearchableText(BlockListModel blockList, string culture = null, string segment = null);
+        string GetSearchableText(BlockListModel blockList, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Returns a textual representation of the specified <paramref name="blockListItem"/>.
@@ -44,7 +44,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
         /// <returns>The textual representation</returns>
-        string GetSearchableText(BlockListItem blockListItem, string culture = null, string segment = null);
+        string GetSearchableText(BlockListItem blockListItem, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Returns a textual representation of the specified <paramref name="token"/>.
@@ -53,7 +53,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
         /// <returns>The textual representation</returns>
-        string GetSearchableText(JToken token, string culture = null, string segment = null);
+        string GetSearchableText(JToken token, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the specified <paramref name="value"/> to <paramref name="writer"/>.
@@ -64,7 +64,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="value">The value.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteString(TextWriter writer, string value, string culture = null, string segment = null);
+        void WriteString(TextWriter writer, string value, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the value of <paramref name="property"/> to <paramref name="writer"/>.
@@ -74,7 +74,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="property">The property.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteProperty(TextWriter writer, IPublishedElement owner, IPublishedProperty property, string culture = null, string segment = null);
+        void WriteProperty(TextWriter writer, IPublishedElement owner, IPublishedProperty property, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the specified published <paramref name="element"/> to <paramref name="writer"/>.
@@ -83,7 +83,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="element">The instance of <see cref="IPublishedElement"/> to append.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteElement(TextWriter writer, IPublishedElement element, string culture = null, string segment = null);
+        void WriteElement(TextWriter writer, IPublishedElement element, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the specified <paramref name="blockList"/> to <paramref name="writer"/>.
@@ -92,7 +92,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="blockList">The instance of <see cref="BlockListModel"/> to append.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteBlockList(TextWriter writer, BlockListModel blockList, string culture = null, string segment = null);
+        void WriteBlockList(TextWriter writer, BlockListModel blockList, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the specified <paramref name="blockListItem"/> to <paramref name="writer"/>.
@@ -101,7 +101,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="blockListItem">The instance of <see cref="BlockListModel"/> to append.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteBlockListItem(TextWriter writer, BlockListItem blockListItem, string culture = null, string segment = null);
+        void WriteBlockListItem(TextWriter writer, BlockListItem blockListItem, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the specified JSON <paramref name="token"/> to <paramref name="writer"/>.
@@ -110,7 +110,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="token">The instance of <see cref="JToken"/> to append.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteJsonToken(TextWriter writer, JToken token, string culture = null, string segment = null);
+        void WriteJsonToken(TextWriter writer, JToken token, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the specified <paramref name="json"/> object to <paramref name="writer"/>.
@@ -119,7 +119,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="json">The instance of <see cref="JObject"/> to append.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteJsonObject(TextWriter writer, JObject json, string culture = null, string segment = null);
+        void WriteJsonObject(TextWriter writer, JObject json, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the specified JSON <paramref name="array"/> to <paramref name="writer"/>.
@@ -128,7 +128,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="array">The instance of <see cref="JArray"/> to append.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteJsonArray(TextWriter writer, JArray array, string culture = null, string segment = null);
+        void WriteJsonArray(TextWriter writer, JArray array, string? culture = null, string? segment = null);
 
         /// <summary>
         /// Appends a textual representation of the specified <paramref name="value"/> to <paramref name="writer"/>.
@@ -137,7 +137,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="value">The value.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteValue(TextWriter writer, object value, string culture = null, string segment = null);
+        void WriteValue(TextWriter writer, object value, string? culture = null, string? segment = null);
 
     }
 

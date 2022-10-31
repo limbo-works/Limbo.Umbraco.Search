@@ -14,6 +14,7 @@ using Limbo.Umbraco.Search.Options.Pagination;
 using Limbo.Umbraco.Search.Options.Sorting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Skybrud.Essentials.AspNetCore;
 using Skybrud.Essentials.Collections;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Web;
@@ -300,18 +301,18 @@ namespace Limbo.Umbraco.Search {
         /// </summary>
         /// <param name="result">The result to look up.</param>
         /// <returns>An instance of <see cref="IPublishedContent"/>.</returns>
-        protected virtual IPublishedContent GetPublishedContentFromResult(ISearchResult result) {
+        protected virtual IPublishedContent? GetPublishedContentFromResult(ISearchResult result) {
 
-            string indexType = result.GetValues("__IndexType").FirstOrDefault();
+            string? indexType = result.GetValues("__IndexType").FirstOrDefault();
             if (_umbracoContextAccessor.TryGetUmbracoContext(out var umbracoContext)) {
                 switch (indexType) {
 
                     case "content":
-                        return umbracoContext.Content.GetById(int.Parse(result.Id));
+                        return umbracoContext.Content?.GetById(int.Parse(result.Id));
 
                     case "media":
                     case "pdf":
-                        return umbracoContext.Media.GetById(int.Parse(result.Id));
+                        return umbracoContext.Media?.GetById(int.Parse(result.Id));
 
                     default:
                         return null;
@@ -331,22 +332,16 @@ namespace Limbo.Umbraco.Search {
         /// <returns>An instance of <see cref="GroupedSearchResult"/>.</returns>
         public virtual GroupedSearchResult Search(HttpRequest request, SearchGroup[] groups) {
 
-            if (request.Query.TryGetValue("groups", out var selectedGroupsRawValue)) {
-                var selectedGroups = selectedGroupsRawValue.TryConvertTo<int[]>();
+            int[] selectedGroups = request.Query["groups"].ToInt32Array();
 
-                if (selectedGroups.Success) {
-                    IEnumerable<SearchGroupResultList> result = (
-                        from x in groups
-                        where selectedGroups.Result.Length == 0 || selectedGroups.Result.Contains(x.Id)
-                        select x?.Callback(x, request, null)
-                    );
+            IEnumerable<SearchGroupResultList> result = (
+                from x in groups
+                where selectedGroups.Length == 0 || selectedGroups.Contains(x.Id)
+                select x?.Callback(x, request, null)
+            );
 
-                    return new GroupedSearchResult(result);
-                }
-            }
+            return new GroupedSearchResult(result);
 
-            _logger.LogError("Groups not found in request");
-            return null;
         }
 
         /// <summary>
@@ -365,7 +360,7 @@ namespace Limbo.Umbraco.Search {
             foreach (char c in normalizedString) {
 
                 // Look for the character in the replacement table
-                if (Diacritics.TryGetValue(c, out string replacement)) {
+                if (Diacritics.TryGetValue(c, out string? replacement)) {
                     sb.Append(replacement);
                     continue;
                 }
@@ -435,7 +430,7 @@ namespace Limbo.Umbraco.Search {
         /// <returns>The <see cref="ISearcher"/> to be used for the search.</returns>
         protected virtual ISearcher GetSearcher(ISearchOptions options) {
 
-            ISearcher searcher;
+            ISearcher? searcher;
 
             switch (options) {
 

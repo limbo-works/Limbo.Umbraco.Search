@@ -22,7 +22,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <summary>
         /// Gets or sets a list of content types to be searched.
         /// </summary>
-        public ContentTypeList ContentTypes { get; set; }
+        public ContentTypeList? ContentTypes { get; set; }
 
         #endregion
 

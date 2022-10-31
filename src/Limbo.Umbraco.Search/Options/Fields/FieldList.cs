@@ -22,7 +22,7 @@ namespace Limbo.Umbraco.Search.Options.Fields {
         /// <summary>
         /// Gets the amount of fields added to to the list.
         /// </summary>
-        public int Count => _fields?.Count ?? 0;
+        public int Count => _fields.Count;
 
         /// <summary>
         /// Returns whether at least one field has a boost value.
@@ -41,7 +41,7 @@ namespace Limbo.Umbraco.Search.Options.Fields {
         /// <summary>
         /// Returns whether the list is valid, which is when the list contain more or more files.
         /// </summary>
-        public bool IsValid => _fields != null && _fields.Any();
+        public bool IsValid => _fields.Any();
 
         /// <summary>
         /// Gets whether the list is empty.

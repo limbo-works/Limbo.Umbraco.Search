@@ -22,7 +22,7 @@ namespace Limbo.Umbraco.Search.Extensions {
                 throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
             }
 
-            if (!dictionary.TryGetValue(key, out IReadOnlyList<object> values)) {
+            if (!dictionary.TryGetValue(key, out IReadOnlyList<object>? values)) {
                 dictionary.Add(key, values = new List<object>());
             }
 
@@ -62,7 +62,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
         public static bool TryAdd(this ValueSet valueSet, string key, object value) {
             
-            if (valueSet == null || valueSet.Values.ContainsKey(key)) return false;
+            if (valueSet.Values.ContainsKey(key)) return false;
 
             if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
                 throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");

@@ -13,7 +13,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="writer">The text writer to write to.</param>
         /// <param name="culture">The variation language.</param>
         /// <param name="segment">The variation segment.</param>
-        void WriteSearchableText(TextWriter writer, string culture = null, string segment = null);
+        void WriteSearchableText(TextWriter writer, string? culture = null, string? segment = null);
 
     }
 

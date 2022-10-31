@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Examine;
 using Examine.Search;
+using J2N.Collections.Generic;
 using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Options.Fields;
 
@@ -18,13 +19,13 @@ namespace Limbo.Umbraco.Search.Options {
         /// <summary>
         /// Gets or sets the text to search for.
         /// </summary>
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// Gets or sets an array of IDs the returned results should be a descendant of. At least one of the IDs should
         /// be in the path of the result to be a match.
         /// </summary>
-        public int[] RootIds { get; set; }
+        public List<int> RootIds { get; set; }
 
         /// <summary>
         /// Gets or sets whether the check on the <c>hideFromSearch</c> field should be disabled.
@@ -45,7 +46,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// </summary>
         public SearchOptionsBase() {
             Text = string.Empty;
-            RootIds = null;
+            RootIds = new List<int>();
         }
 
         #endregion
@@ -127,7 +128,7 @@ namespace Limbo.Umbraco.Search.Options {
 
             // Fallback if no fields are added
             FieldList fields = GetTextFields(searchHelper);
-            if (fields == null || fields.Count == 0) fields = FieldList.GetFromStringArray(new[] { "nodeName_lci", "contentTeasertext_lci", "contentBody_lci" });
+            if (fields.Count == 0) fields = FieldList.GetFromStringArray(new[] { "nodeName_lci", "contentTeasertext_lci", "contentBody_lci" });
 
             query.Add(fields.GetQuery(terms));
 
@@ -139,7 +140,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
         /// <param name="query">The query.</param>
         protected virtual void SearchPath(ISearchHelper searchHelper, QueryList query) {
-            if (RootIds == null || RootIds.Length == 0) return;
+            if (RootIds.Count == 0) return;
             query.Add("(" + string.Join(" OR ", from id in RootIds select "path_search:" + id) + ")");
         }
         

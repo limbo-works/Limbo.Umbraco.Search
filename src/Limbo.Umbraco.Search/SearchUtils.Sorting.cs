@@ -37,7 +37,7 @@ namespace Limbo.Umbraco.Search {
             public static DateTime GetSortValueByDateTime(ISearchResult result, string propertyAlias, ILogger logger) {
 
                 // Get the first string value from the result
-                string value = result.GetValues(propertyAlias)?.FirstOrDefault();
+                string? value = result.GetValues(propertyAlias)?.FirstOrDefault();
 
                 // If we don't have a value, fall back to the item's creation date
                 if (string.IsNullOrWhiteSpace(value)) return GetCreateDate(result);
@@ -76,7 +76,7 @@ namespace Limbo.Umbraco.Search {
             /// <param name="result">The result.</param>
             /// <returns>An instance of <see cref="DateTime"/> representing the creation date.</returns>
             public static DateTime GetCreateDate(ISearchResult result) {
-                string createdDate = result.GetValues("createDate")?.FirstOrDefault();
+                string? createdDate = result.GetValues("createDate")?.FirstOrDefault();
                 return createdDate == null ? DateTime.MinValue : new DateTime(long.Parse(createdDate));
             }
 

@@ -13,7 +13,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// </summary>
         /// <param name="obj">The object to convert to text.</param>
         /// <returns>The textual representation.</returns>
-        public static string GetSearchableText(this ISearchableText obj) {
+        public static string GetSearchableText(this ISearchableText? obj) {
             if (obj == null) return string.Empty;
             StringBuilder sb = new();
             using (TextWriter writer = new StringWriter(sb)) obj.WriteSearchableText(writer);
@@ -26,7 +26,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <param name="obj">The object to convert to text.</param>
         /// <param name="indexingHelper">The current <see cref="IIndexingHelper"/> instance.</param>
         /// <returns>The textual representation.</returns>
-        public static string GetSearchableText(this ISearchableTextHelper obj, IIndexingHelper indexingHelper) {
+        public static string GetSearchableText(this ISearchableTextHelper? obj, IIndexingHelper indexingHelper) {
             if (obj == null) return string.Empty;
             StringBuilder sb = new();
             using (TextWriter writer = new StringWriter(sb)) obj.WriteSearchableText(indexingHelper, writer);

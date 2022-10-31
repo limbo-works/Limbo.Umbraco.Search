@@ -18,42 +18,42 @@ namespace Limbo.Umbraco.Search.Indexing {
     public class IndexingHelper : IIndexingHelper {
 
         /// <inheritdoc />
-        public virtual string GetSearchableText(object value, string culture = null, string segment = null) {
+        public virtual string GetSearchableText(object value, string? culture = null, string? segment = null) {
             StringBuilder sb = new StringBuilder();
             using (TextWriter writer = new StringWriter(sb)) WriteValue(writer, value, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
-        public virtual string GetSearchableText(IPublishedElement element, string culture = null, string segment = null) {
+        public virtual string GetSearchableText(IPublishedElement element, string? culture = null, string? segment = null) {
             StringBuilder sb = new StringBuilder();
             using (TextWriter writer = new StringWriter(sb)) WriteElement(writer, element, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
-        public virtual string GetSearchableText(BlockListModel blockList, string culture = null, string segment = null) {
+        public virtual string GetSearchableText(BlockListModel blockList, string? culture = null, string? segment = null) {
             StringBuilder sb = new StringBuilder();
             using (TextWriter writer = new StringWriter(sb)) WriteBlockList(writer, blockList, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
-        public virtual string GetSearchableText(BlockListItem blockListItem, string culture = null, string segment = null) {
+        public virtual string GetSearchableText(BlockListItem blockListItem, string? culture = null, string? segment = null) {
             StringBuilder sb = new StringBuilder();
             using (TextWriter writer = new StringWriter(sb)) WriteBlockListItem(writer, blockListItem, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
-        public virtual string GetSearchableText(JToken token, string culture = null, string segment = null) {
+        public virtual string GetSearchableText(JToken token, string? culture = null, string? segment = null) {
             StringBuilder sb = new StringBuilder();
             using (TextWriter writer = new StringWriter(sb)) WriteJsonToken(writer, token, culture, segment);
             return sb.ToString();
         }
 
         /// <inheritdoc />
-        public virtual void WriteString(TextWriter writer, string value, string culture = null, string segment = null) {
+        public virtual void WriteString(TextWriter writer, string? value, string? culture = null, string? segment = null) {
 
             // Nothing to index if the value is empty
             if (string.IsNullOrEmpty(value)) return;
@@ -73,12 +73,12 @@ namespace Limbo.Umbraco.Search.Indexing {
         }
 
         /// <inheritdoc />
-        public virtual void WriteProperty(TextWriter writer, IPublishedElement owner, IPublishedProperty property, string culture = null, string segment = null) {
-            WriteValue(writer, property.Value(null, culture, segment));
+        public virtual void WriteProperty(TextWriter writer, IPublishedElement owner, IPublishedProperty property, string? culture = null, string? segment = null) {
+            WriteValue(writer, property.Value(null!, culture, segment));
         }
 
         /// <inheritdoc />
-        public virtual void WriteElement(TextWriter writer, IPublishedElement element, string culture = null, string segment = null) {
+        public virtual void WriteElement(TextWriter writer, IPublishedElement element, string? culture = null, string? segment = null) {
 
             switch (element) {
 
@@ -108,7 +108,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         }
 
         /// <inheritdoc />
-        public virtual void WriteBlockList(TextWriter writer, BlockListModel blockList, string culture = null, string segment = null) {
+        public virtual void WriteBlockList(TextWriter writer, BlockListModel blockList, string? culture = null, string? segment = null) {
             if (blockList == null) return;
             foreach (BlockListItem block in blockList) {
                 WriteBlockListItem(writer, block, culture, segment);
@@ -116,13 +116,13 @@ namespace Limbo.Umbraco.Search.Indexing {
         }
 
         /// <inheritdoc />
-        public virtual void WriteBlockListItem(TextWriter writer, BlockListItem blockListItem, string culture = null, string segment = null) {
+        public virtual void WriteBlockListItem(TextWriter writer, BlockListItem blockListItem, string? culture = null, string? segment = null) {
             if (blockListItem == null) return;
             WriteElement(writer, blockListItem.Content, culture, segment);
         }
 
         /// <inheritdoc />
-        public virtual void WriteJsonToken(TextWriter writer, JToken token, string culture = null, string segment = null) {
+        public virtual void WriteJsonToken(TextWriter writer, JToken token, string? culture = null, string? segment = null) {
 
             // Check the type of "token" to detect null values, objects and arrays
             switch (token) {
@@ -152,7 +152,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         }
 
         /// <inheritdoc />
-        public virtual void WriteJsonObject(TextWriter writer, JObject json, string culture = null, string segment = null) {
+        public virtual void WriteJsonObject(TextWriter writer, JObject json, string? culture = null, string? segment = null) {
 
             foreach (JProperty prop in json.Properties()) {
 
@@ -175,13 +175,13 @@ namespace Limbo.Umbraco.Search.Indexing {
         }
 
         /// <inheritdoc />
-        public virtual void WriteJsonArray(TextWriter writer, JArray array, string culture = null, string segment = null) {
+        public virtual void WriteJsonArray(TextWriter writer, JArray array, string? culture = null, string? segment = null) {
             if (array == null) return;
             foreach (JToken item in array) WriteJsonToken(writer, item, culture, segment);
         }
 
         /// <inheritdoc />
-        public virtual void WriteValue(TextWriter writer, object value, string culture = null, string segment = null) {
+        public virtual void WriteValue(TextWriter writer, object? value, string? culture = null, string? segment = null) {
 
             switch (value) {
 

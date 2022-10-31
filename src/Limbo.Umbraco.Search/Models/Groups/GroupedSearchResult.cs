@@ -13,7 +13,7 @@ namespace Limbo.Umbraco.Search.Models.Groups {
         /// Gets the individual groups making up the overall search result.
         /// </summary>
         [JsonProperty("groups")]
-        public SearchGroupResultList[] Groups { get; }
+        public IReadOnlyList<SearchGroupResultList> Groups { get; }
 
         /// <summary>
         /// Initializes a new instance based on the specified <paramref name="groups"/>.

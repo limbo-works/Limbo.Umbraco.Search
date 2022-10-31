@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Limbo.Umbraco.Search.Constants;
 
@@ -17,7 +18,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list.</param>
         /// <param name="nodeTypeAlias">The alias of the node type.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T AppendNodeTypeAlias<T>(this T list, string nodeTypeAlias) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? AppendNodeTypeAlias<T>(this T? list, string nodeTypeAlias) where T : QueryList {
             if (string.IsNullOrWhiteSpace(nodeTypeAlias)) throw new ArgumentNullException(nameof(nodeTypeAlias));
             list?.Add($"{ExamineFields.NodeTypeAlias}:{nodeTypeAlias}");
             return list;
@@ -30,7 +32,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list.</param>
         /// <param name="nodeTypeAliases">The aliases of the node types.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T AppendNodeTypeAliases<T>(this T list, params string[] nodeTypeAliases) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? AppendNodeTypeAliases<T>(this T? list, params string[]? nodeTypeAliases) where T : QueryList {
             if (nodeTypeAliases == null || nodeTypeAliases.Length == 0) return list;
             list?.Add($"{ExamineFields.NodeTypeAlias}:({string.Join(" ", nodeTypeAliases)})");
             return list;
@@ -43,7 +46,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list.</param>
         /// <param name="nodeTypeAliases">The aliases of the node types.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T AppendNodeTypeAliases<T>(this T list, IEnumerable<string> nodeTypeAliases) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? AppendNodeTypeAliases<T>(this T? list, IEnumerable<string>? nodeTypeAliases) where T : QueryList {
             return nodeTypeAliases == null ? list : AppendNodeTypeAliases(list, nodeTypeAliases.ToArray());
         }
 
@@ -54,7 +58,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list.</param>
         /// <param name="contentTypes">A list of content types.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T AppendNodeTypeAliases<T>(this T list, ContentTypeList contentTypes) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? AppendNodeTypeAliases<T>(this T? list, ContentTypeList? contentTypes) where T : QueryList {
             if (contentTypes == null || contentTypes.Count == 0) return list;
             list?.Add($"{ExamineFields.NodeTypeAlias}:({string.Join(" ", contentTypes.ToArray())})");
             return list;
@@ -66,7 +71,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <typeparam name="T">The type of the query list.</typeparam>
         /// <param name="list">The query list.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T AppendHideFromSearch<T>(this T list) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? AppendHideFromSearch<T>(this T? list) where T : QueryList {
             list?.Add($"{ExamineFields.HideFromSearch}:0");
             return list;
         }
@@ -78,7 +84,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list.</param>
         /// <param name="ancestorId">The ID of the ancestor.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T AppendAncestor<T>(this T list, int ancestorId) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? AppendAncestor<T>(this T? list, int ancestorId) where T : QueryList {
             list?.Add($"{ExamineFields.PathSearch}:{ancestorId}");
             return list;
         }
@@ -90,7 +97,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list.</param>
         /// <param name="ancestorIds">The IDs of the ancestors.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T AppendAncestors<T>(this T list, params int[] ancestorIds) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? AppendAncestors<T>(this T? list, params int[]? ancestorIds) where T : QueryList {
             if (ancestorIds == null || ancestorIds.Length == 0) return list;
             list?.Add($"{ExamineFields.PathSearch}:({string.Join(" ", from id in ancestorIds select id)})");
             return list;
@@ -103,7 +111,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list.</param>
         /// <param name="ancestorIds">The IDs of the ancestors.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T AppendAncestors<T>(this T list, IEnumerable<int> ancestorIds) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? AppendAncestors<T>(this T? list, IEnumerable<int>? ancestorIds) where T : QueryList {
             return ancestorIds == null ? null : AppendAncestors(list, ancestorIds.ToArray());
         }
 
@@ -114,7 +123,8 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="list">The query list to which <paramref name="queryList"/> should be added.</param>
         /// <param name="queryList">The query list to be added.</param>
         /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-        public static T Append<T>(this T list, QueryList queryList) where T : QueryList {
+        [return: NotNullIfNotNull("list")]
+        public static T? Append<T>(this T? list, QueryList queryList) where T : QueryList {
             list?.Add(queryList);
             return list;
         }

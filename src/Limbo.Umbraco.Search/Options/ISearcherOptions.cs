@@ -10,7 +10,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <summary>
         /// Gets a reference to the searcher to be used for the search.
         /// </summary>
-        ISearcher Searcher { get; }
+        ISearcher? Searcher { get; }
 
     }
 

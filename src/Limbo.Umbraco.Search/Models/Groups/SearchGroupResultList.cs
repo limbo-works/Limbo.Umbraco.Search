@@ -30,7 +30,7 @@ namespace Limbo.Umbraco.Search.Models.Groups {
         /// they should be rendered the same way, they could share a common value for this property.
         /// </summary>
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string Type { get; }
+        public string? Type { get; }
 
         /// <summary>
         /// Gets the total amount of results within this group.

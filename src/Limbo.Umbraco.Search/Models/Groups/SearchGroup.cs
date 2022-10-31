@@ -27,7 +27,7 @@ namespace Limbo.Umbraco.Search.Models.Groups {
         /// group - eg. a site may have a one group for regular news articles and another for press releases, but if
         /// they should be rendered the same way, they could share a common value for this property.
         /// </summary>
-        public string Type { get; }
+        public string? Type { get; }
 
         /// <summary>
         /// Gets the initial limit of this group. The limit may later be changed by the frontend.
@@ -37,7 +37,7 @@ namespace Limbo.Umbraco.Search.Models.Groups {
         /// <summary>
         /// Gets callback method used for making the search for this group.
         /// </summary>
-        public Func<SearchGroup, HttpRequest, GroupedSearchOptionsBase, SearchGroupResultList> Callback { get; }
+        public Func<SearchGroup, HttpRequest, GroupedSearchOptionsBase?, SearchGroupResultList> Callback { get; }
 
         /// <summary>
         /// Initializes a new search group based on the specified parameters.
@@ -46,7 +46,7 @@ namespace Limbo.Umbraco.Search.Models.Groups {
         /// <param name="name"></param>
         /// <param name="limit"></param>
         /// <param name="callback"></param>
-        public SearchGroup(int id, string name, int limit, Func<SearchGroup, HttpRequest, GroupedSearchOptionsBase, SearchGroupResultList> callback) {
+        public SearchGroup(int id, string name, int limit, Func<SearchGroup, HttpRequest, GroupedSearchOptionsBase?, SearchGroupResultList> callback) {
             Id = id;
             Name = name;
             Limit = limit;
@@ -61,7 +61,7 @@ namespace Limbo.Umbraco.Search.Models.Groups {
         /// <param name="type">The type of the group.</param>
         /// <param name="limit">The initial limit of the group.</param>
         /// <param name="callback">The callback method of the group.</param>
-        public SearchGroup(int id, string name, string type, int limit, Func<SearchGroup, HttpRequest, GroupedSearchOptionsBase, SearchGroupResultList> callback) {
+        public SearchGroup(int id, string name, string? type, int limit, Func<SearchGroup, HttpRequest, GroupedSearchOptionsBase?, SearchGroupResultList> callback) {
             Id = id;
             Name = name;
             Type = type;

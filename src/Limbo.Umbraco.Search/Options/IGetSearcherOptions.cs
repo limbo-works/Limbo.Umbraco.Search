@@ -13,7 +13,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="examineManager">An instance of <see cref="IExamineManager"/>.</param>
         /// <param name="searchHelper">An instance of <see cref="ISearchHelper"/>.</param>
         /// <returns>The <see cref="ISearcher"/> to be used for the search.</returns>
-        ISearcher GetSearcher(IExamineManager examineManager, ISearchHelper searchHelper);
+        ISearcher? GetSearcher(IExamineManager examineManager, ISearchHelper searchHelper);
 
     }
 

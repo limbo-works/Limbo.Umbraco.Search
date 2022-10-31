@@ -17,9 +17,9 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="key">The key of the field.</param>
         /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found, and if the value can be converted to a <see cref="int"/>; otherwise, <c>0</c>. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key and the value can be converted to a <see cref="int"/>; otherwise, <c>false</c>.</returns>
-        public static bool TryGetInt32(this ISearchResult searchResult, string key, out int result) {
+        public static bool TryGetInt32(this ISearchResult? searchResult, string key, out int result) {
             result = default;
-            return searchResult != null && searchResult.Values.TryGetValue(key, out string str) && TryParseInt32(str, out result);
+            return searchResult != null && searchResult.Values.TryGetValue(key, out string? str) && TryParseInt32(str, out result);
         }
 
         /// <summary>
@@ -29,9 +29,9 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="key">The key of the field.</param>
         /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found, and if the value can be converted to a <see cref="int"/>; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key and the value can be converted to a <see cref="int"/>; otherwise, <c>false</c>.</returns>
-        public static bool TryGetInt32(this ISearchResult searchResult, string key, out int? result) {
+        public static bool TryGetInt32(this ISearchResult? searchResult, string key, out int? result) {
             result = null;
-            return searchResult != null && searchResult.Values.TryGetValue(key, out string str) && TryParseInt32(str, out result);
+            return searchResult != null && searchResult.Values.TryGetValue(key, out string? str) && TryParseInt32(str, out result);
         }
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="key">The key of the field.</param>
         /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found, and if the value can be converted to a <see cref="int"/>; otherwise, <c>0</c>. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key and the value can be converted to a <see cref="long"/>; otherwise, <c>false</c>.</returns>
-        public static bool TryGetInt64(this ISearchResult searchResult, string key, out long result) {
+        public static bool TryGetInt64(this ISearchResult? searchResult, string key, out long result) {
             result = default;
-            return searchResult != null && searchResult.Values.TryGetValue(key, out string str) && TryParseInt64(str, out result);
+            return searchResult != null && searchResult.Values.TryGetValue(key, out string? str) && TryParseInt64(str, out result);
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="key">The key of the field.</param>
         /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found, and if the value can be converted to a <see cref="int"/>; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key and the value can be converted to a <see cref="long"/>; otherwise, <c>false</c>.</returns>
-        public static bool TryGetInt64(this ISearchResult searchResult, string key, out long? result) {
+        public static bool TryGetInt64(this ISearchResult? searchResult, string key, out long? result) {
             result = null;
-            return searchResult != null && searchResult.Values.TryGetValue(key, out string str) && TryParseInt64(str, out result);
+            return searchResult != null && searchResult.Values.TryGetValue(key, out string? str) && TryParseInt64(str, out result);
         }
 
         /// <summary>
@@ -65,9 +65,9 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="key">The key of the field.</param>
         /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, <see cref="Guid.Empty"/>. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key and the value can be converted to a <see cref="Guid"/>; otherwise, <c>false</c>.</returns>
-        public static bool TryGetGuid(this ISearchResult searchResult, string key, out Guid result) {
+        public static bool TryGetGuid(this ISearchResult? searchResult, string key, out Guid result) {
 
-            if (searchResult != null && searchResult.Values.TryGetValue(key, out string str)) {
+            if (searchResult != null && searchResult.Values.TryGetValue(key, out string? str)) {
                 return Guid.TryParse(str, out result);
             }
 
@@ -83,9 +83,9 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="key">The key of the field.</param>
         /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key and the value can be converted to a <see cref="Guid"/>; otherwise, <c>false</c>.</returns>
-        public static bool TryGetGuid(this ISearchResult searchResult, string key, out Guid? result) {
+        public static bool TryGetGuid(this ISearchResult? searchResult, string key, out Guid? result) {
 
-            if (searchResult != null && searchResult.Values.TryGetValue(key, out string str)) {
+            if (searchResult != null && searchResult.Values.TryGetValue(key, out string? str)) {
                 bool success = Guid.TryParse(str, out Guid value);
                 result = success ? value : null;
                 return success;
