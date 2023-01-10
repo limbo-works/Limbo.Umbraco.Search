@@ -542,7 +542,7 @@ namespace Limbo.Umbraco.Search.Extensions {
 
             // Add new fields for each boost value and their respective words
             foreach ((int boost, List<string> list) in temp) {
-                e.ValueSet.TryAdd($"{ExamineFields.BoostWords}_{boost}", string.Join(" ", list));
+                e.ValueSet.TryAdd($"{field}_{boost}", string.Join(" ", list));
             }
 
             return e;
