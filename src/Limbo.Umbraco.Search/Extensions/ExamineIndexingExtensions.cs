@@ -41,7 +41,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             value = e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values) ? values.FirstOrDefault()?.ToString() : null;
             return value != null;
         }
-        
+
         /// <summary>
         /// Attempts to get the first value of the field with the specified <paramref name="key"/>. If the value is not already an <see cref="int"/>, the method will try to convert it.
         /// </summary>
@@ -109,7 +109,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             }
 
         }
-        
+
         /// <summary>
         /// Adds a new field with <paramref name="key"/> and <paramref name="value"/> if the field does not already exist.
         /// </summary>
@@ -269,7 +269,7 @@ namespace Limbo.Umbraco.Search.Extensions {
 
         /// <summary>
         /// Adds a searchable version of the date value in the field with the specified <paramref name="key"/>.
-        /// 
+        ///
         /// The searchable value will be added in a new field using the <c>_range</c> prefix for the key (at it enables
         /// a ranged query) and the value will be formatted using the specified <paramref name="format"/>.
         /// </summary>
@@ -280,7 +280,7 @@ namespace Limbo.Umbraco.Search.Extensions {
 
             // Attempt to get the values of the specified field
             if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) return e;
-            
+
             // Try to parse the first value of the field
             if (TryParseDateTime(values.FirstOrDefault(), out DateTime dateTime)) return e;
 
@@ -456,12 +456,12 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="e"></param>
         /// <param name="field">The key of the field that should have a lower cased version.</param>
         public static IndexingItemEventArgs AddLciField(this IndexingItemEventArgs e, string field) {
-            
+
             if (string.IsNullOrWhiteSpace(field)) throw new ArgumentNullException(nameof(field));
 
             // Skip non-content types
             if (e.ValueSet.Category != IndexTypes.Content) return e;
-            
+
             // Calculate the LCI key
             string lciKey = $"{field}_lci";
 
@@ -547,6 +547,29 @@ namespace Limbo.Umbraco.Search.Extensions {
 
             return e;
 
+        }
+
+        /// <summary>
+        /// Runs through all fields starting with <c>searchBoostWords</c> and splits their values into individual fields for each boost level.
+        /// </summary>
+        /// <param name="e">The event args for the item being indexed.</param>
+        public static IndexingItemEventArgs AddBoostWordsFields(this IndexingItemEventArgs e) {
+            return AddBoostWordsFields(e, ExamineFields.BoostWords);
+        }
+
+        /// <summary>
+        /// Runs through all fields starting with <paramref name="fieldPrefix"/> and splits their values into individual fields for each boost level.
+        /// </summary>
+        /// <param name="e">The event args for the item being indexed.</param>
+        /// <param name="fieldPrefix">The field prefix to search for.</param>
+        public static IndexingItemEventArgs AddBoostWordsFields(this IndexingItemEventArgs e, string fieldPrefix) {
+            foreach (var hai in e.ValueSet.Values.ToArray()) {
+                if (hai.Key.StartsWith(fieldPrefix)) {
+                    e.AddBoostWords(hai.Key);
+                }
+            }
+
+            return e;
         }
 
         private static bool TryParseDateTime(object? value, out DateTime result) {
