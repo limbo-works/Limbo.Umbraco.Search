@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Examine;
 using Examine.Search;
-using J2N.Collections.Generic;
 using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Options.Fields;
 
@@ -133,7 +133,7 @@ namespace Limbo.Umbraco.Search.Options {
             query.Add(fields.GetQuery(terms));
 
         }
-        
+
         /// <summary>
         /// Virtual method for limiting the search to specifi ancestors.
         /// </summary>
@@ -143,7 +143,7 @@ namespace Limbo.Umbraco.Search.Options {
             if (RootIds.Count == 0) return;
             query.Add("(" + string.Join(" OR ", from id in RootIds select "path_search:" + id) + ")");
         }
-        
+
         /// <summary>
         /// Virtual method for limiting the search to only searchable nodes (without the <c>hideFromSearch</c> flag).
         /// </summary>
