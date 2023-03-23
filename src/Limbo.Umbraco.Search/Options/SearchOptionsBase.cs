@@ -119,18 +119,31 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="query">The query.</param>
         protected virtual void SearchText(ISearchHelper searchHelper, QueryList query) {
 
-            if (string.IsNullOrWhiteSpace(Text)) return;
-
-            string text = Regex.Replace(Text, @"[^\wæøåÆØÅ\-@\. ]", string.Empty).ToLowerInvariant().Trim();
-
-            string[] terms = text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (terms.Length == 0) return;
+            IReadOnlyList<string> terms = GetTerms(searchHelper, Text);
+            if (terms.Count == 0) return;
 
             // Fallback if no fields are added
             FieldList fields = GetTextFields(searchHelper);
             if (fields.Count == 0) fields = FieldList.GetFromStringArray(new[] { "nodeName_lci", "contentTeasertext_lci", "contentBody_lci" });
 
             query.Add(fields.GetQuery(terms));
+
+        }
+
+        /// <summary>
+        /// Returns a list of individual search terms (words) based on the specified <paramref name="text"/>.
+        /// </summary>
+        /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
+        /// <param name="text">The text to parse.</param>
+        /// <returns>A list of individual terms (words).</returns>
+        protected virtual IReadOnlyList<string> GetTerms(ISearchHelper searchHelper, string? text) {
+
+            if (string.IsNullOrWhiteSpace(text)) return Array.Empty<string>();
+
+            return Regex.Replace(text, @"[^\wæøåÆØÅ\-@\. ]", string.Empty)
+                .ToLowerInvariant()
+                .Trim()
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
         }
 

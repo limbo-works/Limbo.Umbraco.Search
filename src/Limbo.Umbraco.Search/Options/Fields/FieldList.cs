@@ -141,6 +141,15 @@ namespace Limbo.Umbraco.Search.Options.Fields {
         /// <param name="terms">The search terms to search for.</param>
         /// <returns>The raw Examine query.</returns>
         public virtual string GetQuery(string[] terms) {
+            return GetQuery((IReadOnlyList<string>) terms);
+        }
+
+        /// <summary>
+        /// Returns the raw Examine query for the fields in this list.
+        /// </summary>
+        /// <param name="terms">The search terms to search for.</param>
+        /// <returns>The raw Examine query.</returns>
+        public virtual string GetQuery(IReadOnlyList<string> terms) {
 
             List<string> searchTerms = new();
 
@@ -168,6 +177,7 @@ namespace Limbo.Umbraco.Search.Options.Fields {
                 }
 
                 t += ")";
+
                 searchTerms.Add(t);
 
             }
@@ -175,7 +185,7 @@ namespace Limbo.Umbraco.Search.Options.Fields {
             return string.Join(" AND ", searchTerms.ToArray());
 
         }
-        
+
         /// <inheritdoc />
         public IEnumerator<Field> GetEnumerator() {
             return _fields.GetEnumerator();
