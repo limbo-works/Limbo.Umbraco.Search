@@ -79,7 +79,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// </summary>
         /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
         /// <returns>An insdtance of <see cref="QueryList"/>.</returns>
-        protected virtual QueryList GetQueryList(ISearchHelper searchHelper) {
+        protected internal virtual QueryList GetQueryList(ISearchHelper searchHelper) {
 
             QueryList query = new();
 
@@ -97,7 +97,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// </summary>
         /// <param name="helper"></param>
         /// <returns>An instance of <see cref="FieldList"/>.</returns>
-        protected virtual FieldList GetTextFields(ISearchHelper helper) {
+        protected internal virtual FieldList GetTextFields(ISearchHelper helper) {
             return new FieldList {
                 new("nodeName", 50),
                 new("title", 40),
@@ -140,7 +140,7 @@ namespace Limbo.Umbraco.Search.Options {
         /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
         /// <param name="text">The text to parse.</param>
         /// <returns>A list of individual terms (words).</returns>
-        protected virtual IReadOnlyList<string> GetTerms(ISearchHelper searchHelper, string? text) {
+        protected internal virtual IReadOnlyList<string> GetTerms(ISearchHelper searchHelper, string? text) {
 
             if (string.IsNullOrWhiteSpace(text)) return Array.Empty<string>();
 
