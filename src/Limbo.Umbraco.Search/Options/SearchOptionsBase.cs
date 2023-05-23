@@ -188,7 +188,7 @@ namespace Limbo.Umbraco.Search.Options {
 
             // Get the searcher from the index
             ISearcher searcher = index.Searcher;
-            if (searcher == null) throw new Exception("Examine index {indexName} does not specify a searcher.");
+            if (searcher == null) throw new Exception($"Examine index {indexName} does not specify a searcher.");
 
             // Return the searcher
             return searcher;
