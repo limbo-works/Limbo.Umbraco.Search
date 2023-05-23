@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Lucene.Net.QueryParsers.Classic;
 
 namespace Limbo.Umbraco.Search.Options.Fields {
@@ -151,38 +152,43 @@ namespace Limbo.Umbraco.Search.Options.Fields {
         /// <returns>The raw Examine query.</returns>
         public virtual string GetQuery(IReadOnlyList<string> terms) {
 
-            List<string> searchTerms = new();
+            StringBuilder sb = new();
+
+            int i = 0;
 
             foreach (string term in terms) {
 
                 string escapedTerm = QueryParserBase.Escape(term);
-                string t = "(";
+
+                if (i > 0) sb.Append(" AND ");
+
+                sb.Append('(');
 
                 if (IsValid) {
 
                     // Boost
                     if (HasBoostValues) {
-                        t += string.Join(" OR ", _fields.Where(x => x.Boost != null).Select(fieldOption => string.Format("{0}:({1} {1}*)^{2}", fieldOption.FieldName, escapedTerm, fieldOption.Boost.ToString())).ToArray());
-                        t += " OR ";
+                        sb.Append(string.Join(" OR ", _fields.Where(x => x.Boost != null).Select(fieldOption => string.Format("{0}:({1} {1}*)^{2}", fieldOption.FieldName, escapedTerm, fieldOption.Boost.ToString())).ToArray()));
+                        sb.Append(" OR ");
                     }
 
                     // Fuzzy
                     if (HasFuzzyValues) {
-                        t += string.Join(" OR ", _fields.Where(x => x.Fuzz is > 0 and < 1).Select(fieldOption => string.Format("{0}:{1}~{2}", fieldOption.FieldName, escapedTerm, fieldOption.Fuzz.ToString())).ToArray());
-                        t += " OR ";
+                        sb.Append(string.Join(" OR ", _fields.Where(x => x.Fuzz is > 0 and < 1).Select(fieldOption => string.Format("{0}:{1}~{2}", fieldOption.FieldName, escapedTerm, fieldOption.Fuzz.ToString())).ToArray()));
+                        sb.Append(" OR ");
                     }
 
                     // Add regular search
-                    t += string.Join(" OR ", _fields.Select(fieldOption => string.Format("{1}:({0} {0}*)", escapedTerm, fieldOption.FieldName)).ToArray());
+                    sb.Append(string.Join(" OR ", _fields.Select(fieldOption => string.Format("{1}:({0} {0}*)", escapedTerm, fieldOption.FieldName)).ToArray()));
                 }
 
-                t += ")";
+                sb.Append(')');
 
-                searchTerms.Add(t);
+                i++;
 
             }
 
-            return string.Join(" AND ", searchTerms.ToArray());
+            return sb.ToString();
 
         }
 
