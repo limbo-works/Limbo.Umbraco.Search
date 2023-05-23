@@ -43,13 +43,13 @@ namespace Limbo.Umbraco.Search {
         /// Dictionary describing how certain characters should be replaced in search queries.
         /// </summary>
         protected Dictionary<char, string> Diacritics { get; } = new() {
-            
+
             // Examine/Lucene converts "æ" to "ae"
             { 'æ', "ae" },
-            
+
             // Examine/Lucene converts "ø" to "o", not "oe"
             { 'ø', "o" },
-            
+
             // Examine/Lucene converts "å" to "a", not "aa"
             { 'å', "a" }
 
