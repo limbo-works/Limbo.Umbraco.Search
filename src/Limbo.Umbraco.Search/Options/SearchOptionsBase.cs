@@ -126,7 +126,11 @@ namespace Limbo.Umbraco.Search.Options {
             FieldList fields = GetTextFields(searchHelper);
             if (fields.Count == 0) fields = FieldList.GetFromStringArray(new[] { "nodeName_lci", "contentTeasertext_lci", "contentBody_lci" });
 
-            query.Add(fields.GetQuery(terms));
+            // Are leading wildcards allowed/enabled?
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            bool allowLeadingWildcard = this is ILeadingWildcardSearchOptions { AllowLeadingWildcard: true };
+
+            query.Add(fields.GetQuery(terms, allowLeadingWildcard));
 
         }
 

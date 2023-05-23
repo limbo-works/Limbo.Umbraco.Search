@@ -5,6 +5,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Examine;
+using Examine.Lucene.Providers;
+using Examine.Lucene.Search;
 using Examine.Search;
 using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Models;
@@ -464,7 +466,14 @@ namespace Limbo.Umbraco.Search {
         /// <param name="options">The options for the search.</param>
         /// <returns>An instance of <see cref="IQuery"/>.</returns>
         protected virtual IQuery CreateQuery(ISearcher searcher, ISearchOptions options) {
+
+            if (options is ILeadingWildcardSearchOptions { AllowLeadingWildcard: true }) {
+                if (searcher is not BaseLuceneSearcher luceneSearcher) throw new Exception("Searcher must be an instance of 'BaseLuceneSearcher' to allow leading wildcard.");
+                return luceneSearcher.CreateQuery(null, default, luceneSearcher.LuceneAnalyzer, new LuceneSearchOptions { AllowLeadingWildcard = true});
+            }
+
             return searcher.CreateQuery();
+
         }
 
         #endregion

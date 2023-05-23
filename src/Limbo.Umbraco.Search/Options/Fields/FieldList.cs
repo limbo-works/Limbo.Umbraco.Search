@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using Lucene.Net.QueryParsers.Classic;
 
+// ReSharper disable ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+
 namespace Limbo.Umbraco.Search.Options.Fields {
 
     /// <summary>
@@ -152,6 +154,16 @@ namespace Limbo.Umbraco.Search.Options.Fields {
         /// <param name="terms">The search terms to search for.</param>
         /// <returns>The raw Examine query.</returns>
         public virtual string GetQuery(IReadOnlyList<string> terms) {
+            return GetQuery(terms, false);
+        }
+
+        /// <summary>
+        /// Returns the raw Examine query for the fields in this list.
+        /// </summary>
+        /// <param name="terms">The search terms to search for.</param>
+        /// <param name="allowLeadingWildcard">Whether leading wildcards should be allowed.</param>
+        /// <returns>The raw Examine query.</returns>
+        public string GetQuery(IReadOnlyList<string> terms, bool allowLeadingWildcard) {
 
             StringBuilder sb = new();
 
@@ -167,28 +179,25 @@ namespace Limbo.Umbraco.Search.Options.Fields {
 
                 if (IsValid) {
 
-                    int f = 0;
-
                     // Boost
-                    foreach (var field in _fields) {
+                    foreach (Field field in _fields) {
                         if (field.Boost is null) continue;
-                        sb.AppendFormat(CultureInfo.InvariantCulture, "{0}:({1} {1}*)^{2}", field.FieldName, escapedTerm, field.Boost);
+                        sb.AppendFormat(CultureInfo.InvariantCulture, allowLeadingWildcard ? "{0}:({1} {1}* *{1} *{1}*)^{2}" : "{0}:({1} {1}*)^{2}", field.FieldName, escapedTerm, field.Boost);
                         sb.Append(" OR ");
-                        f++;
                     }
 
                     // Fuzzy
-                    foreach (var field in _fields) {
-                        if (field.Fuzz is not > 0 and < 1) continue;
+                    foreach (Field field in _fields) {
+                        if (field.Fuzz is null or < 0 or > 1) continue;
                         sb.Append(CultureInfo.InvariantCulture, $"{field.FieldName}:{escapedTerm}~{field.Fuzz}");
                         sb.Append(" OR ");
-                        f++;
                     }
 
                     // Add regular search
+                    int f = 0;
                     foreach (Field field in _fields) {
                         if (f > 0) sb.Append(" OR ");
-                        sb.AppendFormat(CultureInfo.InvariantCulture, "{1}:({0} {0}*)", escapedTerm, field.FieldName);
+                        sb.AppendFormat(CultureInfo.InvariantCulture, allowLeadingWildcard ? "{1}:({0} {0}* *{0} *{0}*)" : "{1}:({0} {0}*)", escapedTerm, field.FieldName);
                         f++;
                     }
 
