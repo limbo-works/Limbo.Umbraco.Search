@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Lucene.Net.QueryParsers.Classic;
@@ -166,20 +167,31 @@ namespace Limbo.Umbraco.Search.Options.Fields {
 
                 if (IsValid) {
 
+                    int f = 0;
+
                     // Boost
-                    if (HasBoostValues) {
-                        sb.Append(string.Join(" OR ", _fields.Where(x => x.Boost != null).Select(fieldOption => string.Format("{0}:({1} {1}*)^{2}", fieldOption.FieldName, escapedTerm, fieldOption.Boost.ToString()))));
+                    foreach (var field in _fields) {
+                        if (field.Boost is null) continue;
+                        sb.AppendFormat(CultureInfo.InvariantCulture, "{0}:({1} {1}*)^{2}", field.FieldName, escapedTerm, field.Boost);
                         sb.Append(" OR ");
+                        f++;
                     }
 
                     // Fuzzy
-                    if (HasFuzzyValues) {
-                        sb.Append(string.Join(" OR ", _fields.Where(x => x.Fuzz is > 0 and < 1).Select(fieldOption => string.Format("{0}:{1}~{2}", fieldOption.FieldName, escapedTerm, fieldOption.Fuzz.ToString()))));
+                    foreach (var field in _fields) {
+                        if (field.Fuzz is not > 0 and < 1) continue;
+                        sb.Append(CultureInfo.InvariantCulture, $"{field.FieldName}:{escapedTerm}~{field.Fuzz}");
                         sb.Append(" OR ");
+                        f++;
                     }
 
                     // Add regular search
-                    sb.Append(string.Join(" OR ", _fields.Select(fieldOption => string.Format("{1}:({0} {0}*)", escapedTerm, fieldOption.FieldName))));
+                    foreach (Field field in _fields) {
+                        if (f > 0) sb.Append(" OR ");
+                        sb.AppendFormat(CultureInfo.InvariantCulture, "{1}:({0} {0}*)", escapedTerm, field.FieldName);
+                        f++;
+                    }
+
                 }
 
                 sb.Append(')');
