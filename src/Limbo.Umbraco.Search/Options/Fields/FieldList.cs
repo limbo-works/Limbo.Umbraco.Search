@@ -168,18 +168,18 @@ namespace Limbo.Umbraco.Search.Options.Fields {
 
                     // Boost
                     if (HasBoostValues) {
-                        sb.Append(string.Join(" OR ", _fields.Where(x => x.Boost != null).Select(fieldOption => string.Format("{0}:({1} {1}*)^{2}", fieldOption.FieldName, escapedTerm, fieldOption.Boost.ToString())).ToArray()));
+                        sb.Append(string.Join(" OR ", _fields.Where(x => x.Boost != null).Select(fieldOption => string.Format("{0}:({1} {1}*)^{2}", fieldOption.FieldName, escapedTerm, fieldOption.Boost.ToString()))));
                         sb.Append(" OR ");
                     }
 
                     // Fuzzy
                     if (HasFuzzyValues) {
-                        sb.Append(string.Join(" OR ", _fields.Where(x => x.Fuzz is > 0 and < 1).Select(fieldOption => string.Format("{0}:{1}~{2}", fieldOption.FieldName, escapedTerm, fieldOption.Fuzz.ToString())).ToArray()));
+                        sb.Append(string.Join(" OR ", _fields.Where(x => x.Fuzz is > 0 and < 1).Select(fieldOption => string.Format("{0}:{1}~{2}", fieldOption.FieldName, escapedTerm, fieldOption.Fuzz.ToString()))));
                         sb.Append(" OR ");
                     }
 
                     // Add regular search
-                    sb.Append(string.Join(" OR ", _fields.Select(fieldOption => string.Format("{1}:({0} {0}*)", escapedTerm, fieldOption.FieldName)).ToArray()));
+                    sb.Append(string.Join(" OR ", _fields.Select(fieldOption => string.Format("{1}:({0} {0}*)", escapedTerm, fieldOption.FieldName))));
                 }
 
                 sb.Append(')');
