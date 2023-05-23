@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Examine;
 using Examine.Lucene.Providers;
 using Examine.Lucene.Search;
@@ -476,8 +478,54 @@ namespace Limbo.Umbraco.Search {
 
         }
 
-        #endregion
+        /// <inheritdoc />
+        [return: NotNullIfNotNull("input")]
+        public virtual string? NormalizeString(string? input) {
+
+            if (input is null) return null;
+
+            StringBuilder sb = new();
+
+            input = Regex.Replace(input, "([0-9])\\.([0-9])", match => match.Groups[1].Value + match.Groups[2].Value);
+
+            input = input.Normalize(NormalizationForm.FormD);
+
+            foreach (char c in input) {
+
+                UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(c);
+
+                switch (category) {
+
+                    case UnicodeCategory.Control:
+                    case UnicodeCategory.SpaceSeparator:
+                    case UnicodeCategory.OtherPunctuation:
+                        sb.Append(' ');
+                        break;
+
+                    case UnicodeCategory.DecimalDigitNumber:
+                    case UnicodeCategory.DashPunctuation:
+                        sb.Append(c);
+                        break;
+
+                    case UnicodeCategory.LowercaseLetter:
+                        sb.Append(Diacritics.TryGetValue(c, out string? replacement) ? replacement : c);
+                        break;
+
+                    case UnicodeCategory.UppercaseLetter:
+                        char d = char.ToLowerInvariant(c);
+                        sb.Append(Diacritics.TryGetValue(d, out replacement) ? replacement : d);
+                        break;
+
+                }
+
+            }
+
+            return sb.ToString();
+
+        }
 
     }
+
+    #endregion
 
 }

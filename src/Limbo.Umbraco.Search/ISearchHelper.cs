@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Examine;
 using Limbo.Umbraco.Search.Models;
 using Limbo.Umbraco.Search.Models.Groups;
@@ -74,6 +75,18 @@ namespace Limbo.Umbraco.Search {
         /// <param name="input">The string.</param>
         /// <returns>The result of the operation.</returns>
         string RemoveDiacritics(string input);
+
+        /// <summary>
+        /// Returns a normalized version of the specified <paramref name="input"/> string.
+        ///
+        /// The purpose of this method is to either replace or strip special characters to improve the search
+        /// experience. For instance if this method is used for both the indexed values and the search text, a value
+        /// like <c>héllo</c> may converted to <c>hello</c>, improving the search regarding accents and diacritics.
+        /// </summary>
+        /// <param name="input">The input string.</param>
+        /// <returns>The normalized version of the <paramref name="input"/> string.</returns>
+        [return: NotNullIfNotNull("input")]
+        string? NormalizeString(string? input);
 
     }
 
