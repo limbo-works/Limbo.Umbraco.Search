@@ -282,7 +282,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) return e;
 
             // Try to parse the first value of the field
-            if (TryParseDateTime(values.FirstOrDefault(), out DateTime dateTime)) return e;
+            if (!TryParseDateTime(values.FirstOrDefault(), out DateTime dateTime)) return e;
 
             // Add a new range field with the date in the specified format
             e.ValueSet.TryAdd($"{key}_range", dateTime.ToString(format));
