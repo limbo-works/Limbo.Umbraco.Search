@@ -17,7 +17,7 @@ namespace Limbo.Umbraco.Search.Options.Groups {
             result = 0;
             return false;
         }
-        
+
         /// <summary>
         /// Gets the offset of the specified <paramref name="group"/>.
         /// </summary>

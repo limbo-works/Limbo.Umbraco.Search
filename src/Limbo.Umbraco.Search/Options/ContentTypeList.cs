@@ -56,7 +56,7 @@ namespace Limbo.Umbraco.Search.Options {
         public void AddRange(params string[] contentTypeAliases) {
             _contentTypes.AddRange(contentTypeAliases);
         }
-        
+
         /// <summary>
         /// Adds the content types with the specified <paramref name="contentTypeAliases"/>.
         /// </summary>

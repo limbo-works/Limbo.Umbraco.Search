@@ -58,7 +58,7 @@ namespace Limbo.Umbraco.Search.Indexing {
         /// <summary>
         /// Appends a textual representation of the specified <paramref name="value"/> to <paramref name="writer"/>.
         ///
-        /// Values that appear to be containing one or more UDIs will be ignored. Values that appear to be JSON will be parsed 
+        /// Values that appear to be containing one or more UDIs will be ignored. Values that appear to be JSON will be parsed
         /// </summary>
         /// <param name="writer">The writer to write to.</param>
         /// <param name="value">The value.</param>

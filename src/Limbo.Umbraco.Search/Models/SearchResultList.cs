@@ -24,7 +24,7 @@ namespace Limbo.Umbraco.Search.Models {
         public bool IsDebug { get; }
 
         /// <summary>
-        /// 
+        /// Gets a reference to the underlying <see cref="IQuery"/> the search was based on.
         /// </summary>
         public IQuery Query { get; }
 

@@ -69,7 +69,7 @@ namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
         #endregion
 
         #region Operator overloading
-        
+
         /// <summary>
         /// Initializes a new list populated with the specified <paramref name="conditions"/>.
         /// </summary>
@@ -77,7 +77,7 @@ namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
         public static implicit operator FieldConditionList(List<FieldCondition> conditions) {
             return new FieldConditionList(conditions);
         }
-        
+
         /// <summary>
         /// Initializes a new list populated with the specified <paramref name="conditions"/>.
         /// </summary>

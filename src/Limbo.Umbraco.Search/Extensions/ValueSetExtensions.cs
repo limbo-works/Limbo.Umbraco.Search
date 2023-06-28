@@ -8,7 +8,7 @@ namespace Limbo.Umbraco.Search.Extensions {
     /// Static class with various extension methods for <see cref="ValueSet"/>.
     /// </summary>
     public static class ValueSetExtensions {
-        
+
         /// <summary>
         /// Adds a value to the keyed item, if it doesn't exist the key will be created.
         /// </summary>
@@ -29,9 +29,9 @@ namespace Limbo.Umbraco.Search.Extensions {
             if (values is not List<object> list) {
                 dictionary[key] = list = new List<object>(values);
             }
-            
+
             list.Add(value);
-            
+
             return values.Count;
 
         }
@@ -47,7 +47,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
                 throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
             }
-            
+
             dictionary[key] = new List<object> { value };
 
         }
@@ -61,7 +61,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="value">The value to be added.</param>
         /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
         public static bool TryAdd(this ValueSet valueSet, string key, object value) {
-            
+
             if (valueSet.Values.ContainsKey(key)) return false;
 
             if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {

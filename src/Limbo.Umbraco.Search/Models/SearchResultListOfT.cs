@@ -22,7 +22,7 @@ namespace Limbo.Umbraco.Search.Models {
         public bool IsDebug { get; }
 
         /// <summary>
-        /// 
+        /// Gets a reference to the underlying <see cref="IQuery"/> the search was based on.
         /// </summary>
         public IQuery Query { get; }
 
@@ -39,7 +39,7 @@ namespace Limbo.Umbraco.Search.Models {
         #endregion
 
         #region Constructors
-        
+
         /// <summary>
         /// Initializes a new result list based on the specified <paramref name="options"/>, <paramref name="query"/>,
         /// <paramref name="total"/> count and <paramref name="items"/>.

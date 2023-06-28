@@ -27,7 +27,7 @@ namespace Limbo.Umbraco.Search.Options {
         #endregion
 
         #region Constructors
-        
+
         /// <summary>
         /// Initializes a new instance with default options.
         /// </summary>
@@ -38,7 +38,7 @@ namespace Limbo.Umbraco.Search.Options {
         #endregion
 
         #region Member methods
-        
+
         /// <summary>
         /// Virtual method for limiting the search to specific content types.
         /// </summary>

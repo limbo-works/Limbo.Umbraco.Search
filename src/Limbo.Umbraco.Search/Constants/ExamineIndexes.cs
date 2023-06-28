@@ -9,12 +9,12 @@
         /// Gets the name of the external index.
         /// </summary>
         public const string ExternalIndexName = global::Umbraco.Cms.Core.Constants.UmbracoIndexes.ExternalIndexName;
-        
+
         /// <summary>
         /// Gets the name of the internal index.
         /// </summary>
         public const string InternalIndexName = global::Umbraco.Cms.Core.Constants.UmbracoIndexes.InternalIndexName;
-        
+
         /// <summary>
         /// Gets the name of the members index.
         /// </summary>

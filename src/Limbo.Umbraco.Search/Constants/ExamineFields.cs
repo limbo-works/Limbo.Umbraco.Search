@@ -9,12 +9,12 @@
         /// Gets the key of the field indicating the index type.
         /// </summary>
         public const string IndexType = "__IndexType";
-        
+
         /// <summary>
         /// Gets the key of the field with the key of the node.
         /// </summary>
         public const string Key = "__Key";
-        
+
         /// <summary>
         /// Gets the key of the field with the numeric ID of the node.
         /// </summary>
@@ -29,7 +29,7 @@
         /// Gets the key of the field indicating the node type alias of the node.
         /// </summary>
         public const string NodeTypeAlias = "__NodeTypeAlias";
-        
+
         /// <summary>
         /// Gets the key of the field indicating the node's path.
         /// </summary>
@@ -89,7 +89,7 @@
         /// Gets the key of the field indicating the ID of the parent of the node.
         /// </summary>
         public const string ParentId = "parentID";
-        
+
         /// <summary>
         /// Gets the key of the field indicationg the update date of the node.
         /// </summary>
@@ -99,7 +99,7 @@
         /// Gets the key of the field indicationg the URL name of the node.
         /// </summary>
         public const string UrlName = global::Umbraco.Cms.Core.Constants.Conventions.Content.UrlName;
-        
+
         /// <summary>
         /// Gets the key of the field indicationg the ID of the user who last updated the node.
         /// </summary>

@@ -18,7 +18,7 @@ namespace Limbo.Umbraco.Search.Options.Groups {
         /// Gets the current limit of the group.
         /// </summary>
         public int Limit { get; }
-        
+
         /// <summary>
         /// Gets the current offset of the group.
         /// </summary>

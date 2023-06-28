@@ -9,7 +9,7 @@
         /// Get or sets the offset.
         /// </summary>
         int Offset { get; set; }
-        
+
         /// <summary>
         /// Get or sets the offset.
         /// </summary>
