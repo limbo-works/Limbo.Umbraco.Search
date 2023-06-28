@@ -1,11 +1,14 @@
 ﻿using System;
 
 namespace Limbo.Umbraco.Search.Constants {
-    
-    internal class ExamineDateFormats {
+
+    /// <summary>
+    /// Static class with constants for various date formats related to Examine.
+    /// </summary>
+    public class ExamineDateFormats {
 
         /// <summary>
-        /// Represents a format where year, mont, day and so forth is written first, so values may be sorted using regular string comparison.
+        /// Represents a format where year, month, day and so forth is written first, so values may be sorted using regular string comparison.
         /// </summary>
         public const string Sortable = "yyyyMMddHHmmss000";
 
