@@ -285,6 +285,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             if (!TryParseDateTime(values.FirstOrDefault(), out DateTime dateTime)) return e;
 
             // Add a new range field with the date in the specified format
+            e.ValueSet.TryAdd($"{key}_search", dateTime.ToString(format));
             e.ValueSet.TryAdd($"{key}_range", dateTime.ToString(format));
 
             return e;
