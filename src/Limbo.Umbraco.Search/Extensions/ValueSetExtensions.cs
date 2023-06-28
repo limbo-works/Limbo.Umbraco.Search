@@ -23,6 +23,10 @@ namespace Limbo.Umbraco.Search.Extensions {
             }
 
             if (!dictionary.TryGetValue(key, out IReadOnlyList<object>? values)) {
+                if (value is IReadOnlyList<object> valueAsList) {
+                    dictionary.Add(key, valueAsList);
+                    return valueAsList.Count;
+                }
                 dictionary.Add(key, values = new List<object>());
             }
 
@@ -48,7 +52,11 @@ namespace Limbo.Umbraco.Search.Extensions {
                 throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
             }
 
-            dictionary[key] = new List<object> { value };
+            if (value is IReadOnlyList<object> list) {
+                dictionary.Add(key, list);
+            } else {
+                dictionary.Add(key, new List<object> { value });
+            }
 
         }
 
@@ -68,7 +76,12 @@ namespace Limbo.Umbraco.Search.Extensions {
                 throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
             }
 
-            dictionary.Add(key, new List<object> { value });
+            if (value is IReadOnlyList<object> list) {
+                dictionary.Add(key, list);
+            } else {
+                dictionary.Add(key, new List<object> { value });
+            }
+
             return true;
 
         }
