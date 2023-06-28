@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>2.0.0-alpha004</VersionPrefix>
+    <VersionPrefix>2.0.0-alpha005</VersionPrefix>
     <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Product>Limbo.Umbraco.Search</Product>
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © $([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
-    <Description>Search package for Umbraco 10.</Description>
+    <Description>Search package for Umbraco 10+.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
