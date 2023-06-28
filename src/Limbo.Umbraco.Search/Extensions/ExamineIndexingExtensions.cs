@@ -8,8 +8,8 @@ using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Indexing;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json;
-using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Json.Newtonsoft;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Essentials.Strings;
 using Skybrud.Essentials.Time.Iso8601;
 using Umbraco.Cms.Core;
@@ -519,7 +519,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             if (!TryGetString(e, field, out string? rawValue)) return e;
 
             // Attempt to parse the JSON array
-            if (!JsonUtils.TryParseJsonArray(rawValue, out JArray array)) return e;
+            if (!JsonUtils.TryParseJsonArray(rawValue, out JArray? array)) return e;
 
             // Initialize a new dictionary for keeping track of the boost words and their boosted value
             Dictionary<int, List<string>> temp = new();
