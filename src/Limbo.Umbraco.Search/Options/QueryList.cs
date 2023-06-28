@@ -21,6 +21,11 @@ namespace Limbo.Umbraco.Search.Options {
         public QueryListType Type { get; }
 
         /// <summary>
+        /// Gets whether this list defines queries that should be excluded (opposite of included, which is default).
+        /// </summary>
+        public bool Exclude { get; }
+
+        /// <summary>
         /// Initializes a new <see cref="QueryListType.And"/> based query list.
         /// </summary>
         public QueryList() : this(QueryListType.And) { }
@@ -35,11 +40,22 @@ namespace Limbo.Umbraco.Search.Options {
         }
 
         /// <summary>
+        /// Initializes a new query list based on the specified <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The type of the query list.</param>
+        /// <param name="exclude">Whether this list defines queries that should be excluded.</param>
+        public QueryList(QueryListType type, bool exclude) {
+            Type = type;
+            Exclude = exclude;
+            List = new List<object>();
+        }
+
+        /// <summary>
         /// Returns a raw query based on this query list.
         /// </summary>
         /// <returns>A string representing the raw query.</returns>
         public virtual string GetRawQuery() {
-            return string.Join($" {Type.ToUpper()} ", from item in List select item.ToString());
+            return $"{(Exclude ? "-" : "")}({string.Join($" {Type.ToUpper()} ", from item in List select item.ToString())})";
         }
 
         /// <inheritdoc />
