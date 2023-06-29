@@ -76,11 +76,11 @@ namespace Limbo.Umbraco.Search.Extensions {
                 throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
             }
 
-            if (value is IReadOnlyList<object> list) {
-                dictionary.Add(key, list);
-            } else {
-                dictionary.Add(key, new List<object> { value });
-            }
+            // Convert "value" to a list if it's not already a list
+            if (value is not IReadOnlyList<object> list) list = new List<object> { value };
+
+            // Add the list to the dictionary
+            dictionary.Add(key, list);
 
             return true;
 
