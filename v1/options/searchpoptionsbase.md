@@ -18,7 +18,7 @@ The `SearchOptionsBase` class implements the following interfaces:
 
 Declares a text that the returned results should match. 
 
-Which fields that are searched are controlled by the [GetTextFields](#GetTextFields) methods. By default, the `nodeName`, `title` and `teaser` fields are searched.
+Which fields that are searched are controlled by the [GetTextFields](#gettextfields) methods. By default, the `nodeName`, `title` and `teaser` fields are searched.
 
 
 
@@ -60,7 +60,7 @@ protected override FieldList GetTextFields(ISearchHelper helper) {
 }
 ```
 
-Read more about the **FieldList** and **Field** classes to see additional options - eg. fuzzy search and boosting specific fields.
+Read more about the [**`FieldList`**](./../fields/field.md) and [**`FieldList`**](./../fields/field.md) classes to see additional options - eg. fuzzy search and boosting specific fields.
 
 
 
@@ -83,7 +83,7 @@ protected override void SearchType(ISearchHelper searchHelper, QueryList query) 
 
 ### SearchText
 
-Virtual method for configuring the text based search. The method is responsible for splitting the value of the [`Text`](#text) property into words, and search for these words in the fields returned by the [`GetTextFields`](#gettextfields)  method.
+Virtual method for configuring the text based search. The method is responsible for splitting the value of the [**`Text`**](#text) property into words, and search for these words in the fields returned by the [**`GetTextFields`**](#gettextfields)  method.
 
 For some of our sites, we're overriding this method to use a Hunspell dictionary for improving the search experience for the user - eg. to also search for variations of of a word or finding the correct word if spelled incorrectly.
 
@@ -95,7 +95,7 @@ For some of our sites, we're overriding this method to use a Hunspell dictionary
 
 Virtual method for restricting the search to results for which the path matches the criteria defined by this method.
 
-Default behavior is an OR-based search to match at least one of the IDs specified by the `RootIds` should match. To change the method to be AND-based instead (all specified IDs must match), you can override the method like this:
+Default behavior is an OR-based search to match at least one of the IDs specified by the **`RootIds`** should match. To change the method to be AND-based instead (all specified IDs must match), you can override the method like this:
 
 ```csharp
 protected override void SearchPath(ISearchHelper searchHelper, QueryList query) {
