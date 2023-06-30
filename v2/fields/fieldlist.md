@@ -1,6 +1,6 @@
 # FieldList
 
-The `FieldList` is a list for custom list of [**`Field`*'](./field.md) items.
+The `FieldList` is a list for custom list of [**`Field`**](./field.md) items.
 
 Like other lists, you can add a new item through the `Add` method:
 
