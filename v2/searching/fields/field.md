@@ -2,7 +2,7 @@
 
 The `Field` class describes a field to be searched, primarily the name or key of the field.
 
-Eg. the example below represents the `nodeName` field, which may be added to a [**`FieldList`**](./field.md) instance:
+Eg. the example below represents the `nodeName` field, which may be added to a [**`FieldList`**](./fieldlist.md) instance:
 
 ```csharp
 Field field = new Field("nodeName");
