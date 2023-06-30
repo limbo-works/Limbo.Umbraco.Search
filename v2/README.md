@@ -2,6 +2,6 @@
 redirect: ./getting-started.md
 ---
 
-# Version 1
+# Version 2
 
 Hej
