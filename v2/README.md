@@ -1,5 +1,5 @@
 ---
-redirect ./getting-started.md
+redirect: ./getting-started.md
 ---
 
 # Version 1
