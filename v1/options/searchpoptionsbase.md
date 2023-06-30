@@ -1,12 +1,22 @@
 # SearchOptionsBase
 
+The `SearchOptionsBase` class is a base class that implements most of the common search functionality that we typically use at Limbo. The class contains a number of properties and method that may be used to customize the search.
+
+It's recommended not to create instances of this class directly, but instead create your own base class that extends the `SearchOptionsBase` class.
+
+
+
+
+
 ## Interfaces
 
 The `SearchOptionsBase` class implements the following interfaces:
 
-- ISearchOptions
-- IGetSearcherOptions
-- IDebugSearchOptions
+- [**`ISearchOptions`**](./isearchoptions.md)
+- [**`IGetSearcherOptions`**](./igetsearcheroptions.md)
+- [**`IDebugSearchOptions`**](./idebugsearchoptions.md)
+
+
 
 
 
@@ -20,11 +30,54 @@ Declares a text that the returned results should match.
 
 Which fields that are searched are controlled by the [GetTextFields](#gettextfields) methods. By default, the `nodeName`, `title` and `teaser` fields are searched.
 
+```csharp
+SearchOptionsBase options = new() {
+    Text = "Hello there"
+};
+```
+
+### RootIds
+
+Declares a list of IDs that should be in the path of the returned results. If more than one ID is specified, at least one of the IDs should
+be in the path of the result to be a match.
+
+The property is used by the [**`SearchPath`**](#searchpath) method.
+
+```csharp
+SearchOptionsBase options = new() {
+    new List<int> { 1234 }
+};
+```
+
+### DisableHideFromSearch
+
+At Limbo we're typically adding a `hideFromSearch` property to pages in Umbraco, which if enabled, will result in a corresponding `hideFromSearch` field in Examine with the value set to `1`.
+
+Pages without this setting or where the setting hasn't been enabled, the field may not exist in Umbraco, in which case searching for `hideFromSearch:0` wont get you the expected result.
+
+Therefore we are updating the index with a default value, but this isn't done automatically, so you can disable this part of the search:
+
+```csharp
+SearchOptionsBase options = new() {
+    DisableHideFromSearch = true
+};
+```
+
+
+
+
 
 
 
 
 ## Methods
+
+
+### GetBooleanOperation
+
+*Empty placeholder for now*
+
+
 
 ### GetTextFields
 
@@ -60,7 +113,55 @@ protected override FieldList GetTextFields(ISearchHelper helper) {
 }
 ```
 
-Read more about the [**`FieldList`**](./../fields/field.md) and [**`FieldList`**](./../fields/field.md) classes to see additional options - eg. fuzzy search and boosting specific fields.
+Read more about the [**`FieldList`**](./../fields/field.md) and [**`Field`**](./../fields/field.md) classes to see additional options - eg. fuzzy search and boosting specific fields.
+
+
+
+### GetQueryList
+
+Overall method for building the `QueryList` representing the Examine search query. By default, this method will call the following methods:
+
+- [`SearchType`](#searchtype)
+- [`SearchText`](#searchtext)
+- [`SearchPath`](#searchpath)
+- [`SearchHideFromSearch`](#searchhidefromsearch)
+
+The method may be overridden in case you need to add additional parts to the query:
+
+```csharp
+protected override QueryList GetQueryList(ISearchHelper searchHelper) {
+
+    QueryList query = base.GetQueryList(searchHelper);
+
+    query.Add("hello:there");
+
+    return query;
+
+}
+```
+
+
+
+
+### GetSearcher
+
+From: [**`IGetSearcherOptions`**](./igetsearcheroptions.md)
+
+The `GetSearcher` method is used for returning the `ISearcher` to be used for the search. The method's default behavior is to use the searcher of Umbraco's `ExternalIndex`.
+
+The method can be overridden to use another searcher:
+
+```csharp
+public virtual ISearcher GetSearcher(IExamineManager examineManager, ISearchHelper searchHelper) {
+    return GetSearcherByIndexName(examineManager, searchHelper, "MyCustomIndex");
+}
+```
+
+The `GetSearcherByIndexName` method is a protected method in the `SearchOptionsBase` class.
+
+
+
+
 
 
 
