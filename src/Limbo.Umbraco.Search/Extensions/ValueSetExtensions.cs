@@ -86,6 +86,29 @@ namespace Limbo.Umbraco.Search.Extensions {
 
         }
 
+        /// <summary>
+        /// Attempts to set the specified <paramref name="value"/> to the item with <paramref name="key"/>. If an item already exists with <paramref name="key"/>, the item will be replaced with the <paramref name="value"/>.
+        /// </summary>
+        /// <param name="valueSet">The value set.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value to be added.</param>
+        /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
+        public static bool TrySet(this ValueSet valueSet, string key, object value) {
+
+            if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
+                throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
+            }
+
+            // Convert "value" to a list if it's not already a list
+            if (value is not IReadOnlyList<object> list) list = new List<object> { value };
+
+            // Add the list to the dictionary
+            dictionary[key] = list;
+
+            return true;
+
+        }
+
     }
 
 }
