@@ -1,15 +1,13 @@
-﻿namespace Limbo.Umbraco.Search.Options {
+﻿namespace Limbo.Umbraco.Search.Options;
+
+/// <summary>
+/// Extends the <see cref="ISearchOptions"/> interface with a <see cref="IsDebug"/> property.
+/// </summary>
+public interface IDebugSearchOptions : ISearchOptions {
 
     /// <summary>
-    /// Extends the <see cref="ISearchOptions"/> interface with a <see cref="IsDebug"/> property.
+    /// Gets whether the search should be performed in debug mode.
     /// </summary>
-    public interface IDebugSearchOptions : ISearchOptions {
-
-        /// <summary>
-        /// Gets whether the search should be performed in debug mode.
-        /// </summary>
-        bool IsDebug { get; }
-
-    }
+    bool IsDebug { get; }
 
 }

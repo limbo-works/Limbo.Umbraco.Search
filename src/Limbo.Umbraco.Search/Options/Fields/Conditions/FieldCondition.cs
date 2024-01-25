@@ -2,89 +2,87 @@
 using System.Linq;
 using Examine;
 
-namespace Limbo.Umbraco.Search.Options.Fields.Conditions {
+namespace Limbo.Umbraco.Search.Options.Fields.Conditions;
+
+/// <summary>
+/// Class representing a condition for a field.
+/// </summary>
+public class FieldCondition : IFieldCondition {
+
+    #region Properties
 
     /// <summary>
-    /// Class representing a condition for a field.
+    /// Gets or sets the alias of the field to match.
     /// </summary>
-    public class FieldCondition : IFieldCondition {
+    public string Alias { get; set; }
 
-        #region Properties
+    /// <summary>
+    /// Gets or sets the value to check for.
+    /// </summary>
+    public string Value { get; set; }
 
-        /// <summary>
-        /// Gets or sets the alias of the field to match.
-        /// </summary>
-        public string Alias { get; set; }
+    /// <summary>
+    /// gets or sets the type of the condition - eg. <see cref="FieldConditionType.Equals"/>.
+    /// </summary>
+    public FieldConditionType Type { get; set; }
 
-        /// <summary>
-        /// Gets or sets the value to check for.
-        /// </summary>
-        public string Value { get; set; }
+    #endregion
 
-        /// <summary>
-        /// gets or sets the type of the condition - eg. <see cref="FieldConditionType.Equals"/>.
-        /// </summary>
-        public FieldConditionType Type { get; set; }
+    #region Constructors
 
-        #endregion
+    /// <summary>
+    /// Initializes a new field condition where the field with the <paramref name="alias"/> should be equal to <paramref name="value"/>.
+    /// </summary>
+    /// <param name="alias">The alias of the field.</param>
+    /// <param name="value">The value to match.</param>
+    public FieldCondition(string alias, string value) {
+        Alias = alias;
+        Value = value;
+        Type = FieldConditionType.Equals;
+    }
 
-        #region Constructors
+    /// <summary>
+    /// Initializes a new field condition where the field with the <paramref name="alias"/> should match <paramref name="value"/>.
+    /// </summary>
+    /// <param name="alias"></param>
+    /// <param name="value"></param>
+    /// <param name="type">The type of the condition - eg. <see cref="FieldConditionType.Equals"/> or <see cref="FieldConditionType.Contains"/>.</param>
+    public FieldCondition(string alias, string value, FieldConditionType type) {
+        Alias = alias;
+        Value = value;
+        Type = type;
+    }
 
-        /// <summary>
-        /// Initializes a new field condition where the field with the <paramref name="alias"/> should be equal to <paramref name="value"/>.
-        /// </summary>
-        /// <param name="alias">The alias of the field.</param>
-        /// <param name="value">The value to match.</param>
-        public FieldCondition(string alias, string value) {
-            Alias = alias;
-            Value = value;
-            Type = FieldConditionType.Equals;
-        }
+    #endregion
 
-        /// <summary>
-        /// Initializes a new field condition where the field with the <paramref name="alias"/> should match <paramref name="value"/>.
-        /// </summary>
-        /// <param name="alias"></param>
-        /// <param name="value"></param>
-        /// <param name="type">The type of the condition - eg. <see cref="FieldConditionType.Equals"/> or <see cref="FieldConditionType.Contains"/>.</param>
-        public FieldCondition(string alias, string value, FieldConditionType type) {
-            Alias = alias;
-            Value = value;
-            Type = type;
-        }
+    #region Member methods
 
-        #endregion
+    /// <summary>
+    /// Returns whether the specified <paramref name="result"/> matches this condition.
+    /// </summary>
+    /// <param name="result">The result to check.</param>
+    /// <returns><c>true</c> if <paramref name="result"/> matches this condition; otherwise, <c>false</c>.</returns>
+    public bool IsMatch(SearchResult result) {
 
-        #region Member methods
+        string[] values = result.GetValues(Alias).ToArray();
 
-        /// <summary>
-        /// Returns whether the specified <paramref name="result"/> matches this condition.
-        /// </summary>
-        /// <param name="result">The result to check.</param>
-        /// <returns><c>true</c> if <paramref name="result"/> matches this condition; otherwise, <c>false</c>.</returns>
-        public bool IsMatch(SearchResult result) {
+        if (values.Length == 0) return false;
 
-            string[] values = result.GetValues(Alias).ToArray();
+        switch (Type) {
 
-            if (values.Length == 0) return false;
+            case FieldConditionType.Equals:
+                return values.Any(x => x.Equals(Value));
 
-            switch (Type) {
+            case FieldConditionType.Contains:
+                return values.Any(x => x.Contains(Value));
 
-                case FieldConditionType.Equals:
-                    return values.Any(x => x.Equals(Value));
-
-                case FieldConditionType.Contains:
-                    return values.Any(x => x.Contains(Value));
-
-                default:
-                    throw new Exception("Unknown condition type: " + Type);
-
-            }
+            default:
+                throw new Exception("Unknown condition type: " + Type);
 
         }
-
-        #endregion
 
     }
+
+    #endregion
 
 }

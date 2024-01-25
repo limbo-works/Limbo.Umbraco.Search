@@ -2,112 +2,110 @@
 using System.Collections.Generic;
 using Examine;
 
-namespace Limbo.Umbraco.Search.Extensions {
+namespace Limbo.Umbraco.Search.Extensions;
+
+/// <summary>
+/// Static class with various extension methods for <see cref="ValueSet"/>.
+/// </summary>
+public static class ValueSetExtensions {
 
     /// <summary>
-    /// Static class with various extension methods for <see cref="ValueSet"/>.
+    /// Adds a value to the keyed item, if it doesn't exist the key will be created.
     /// </summary>
-    public static class ValueSetExtensions {
+    /// <param name="valueSet">The value set.</param>
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value to be added.</param>
+    /// <returns>The number of items stored for the key.</returns>
+    public static int Add(this ValueSet valueSet, string key, object value) {
 
-        /// <summary>
-        /// Adds a value to the keyed item, if it doesn't exist the key will be created.
-        /// </summary>
-        /// <param name="valueSet">The value set.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value to be added.</param>
-        /// <returns>The number of items stored for the key.</returns>
-        public static int Add(this ValueSet valueSet, string key, object value) {
-
-            if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
-                throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
-            }
-
-            if (!dictionary.TryGetValue(key, out IReadOnlyList<object>? values)) {
-                if (value is IReadOnlyList<object> valueAsList) {
-                    dictionary.Add(key, valueAsList);
-                    return valueAsList.Count;
-                }
-                dictionary.Add(key, values = new List<object>());
-            }
-
-            if (values is not List<object> list) {
-                dictionary[key] = list = new List<object>(values);
-            }
-
-            list.Add(value);
-
-            return values.Count;
-
+        if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
+            throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
         }
 
-        /// <summary>
-        /// Sets a value to the keyed item, if it doesn't exist the key will be created.
-        /// </summary>
-        /// <param name="valueSet">The value set.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value to be added.</param>
-        public static void Set(this ValueSet valueSet, string key, object value) {
-
-            if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
-                throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
+        if (!dictionary.TryGetValue(key, out IReadOnlyList<object>? values)) {
+            if (value is IReadOnlyList<object> valueAsList) {
+                dictionary.Add(key, valueAsList);
+                return valueAsList.Count;
             }
-
-            // Convert "value" to a list if it's not already a list
-            if (value is not IReadOnlyList<object> list) list = new List<object> { value };
-
-            // Set the key in the dictionary (replace any existing value)
-            dictionary[key] = list;
-
+            dictionary.Add(key, values = new List<object>());
         }
 
-
-        /// <summary>
-        /// Attempts to add the specified <paramref name="value"/> to the item with <paramref name="key"/>, if the item does not already exist.
-        /// </summary>
-        /// <param name="valueSet">The value set.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value to be added.</param>
-        /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
-        public static bool TryAdd(this ValueSet valueSet, string key, object value) {
-
-            if (valueSet.Values.ContainsKey(key)) return false;
-
-            if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
-                throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
-            }
-
-            // Convert "value" to a list if it's not already a list
-            if (value is not IReadOnlyList<object> list) list = new List<object> { value };
-
-            // Add the list to the dictionary
-            dictionary.Add(key, list);
-
-            return true;
-
+        if (values is not List<object> list) {
+            dictionary[key] = list = new List<object>(values);
         }
 
-        /// <summary>
-        /// Attempts to set the specified <paramref name="value"/> to the item with <paramref name="key"/>. If an item already exists with <paramref name="key"/>, the item will be replaced with the <paramref name="value"/>.
-        /// </summary>
-        /// <param name="valueSet">The value set.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value to be added.</param>
-        /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
-        public static bool TrySet(this ValueSet valueSet, string key, object value) {
+        list.Add(value);
 
-            if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
-                throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
-            }
+        return values.Count;
 
-            // Convert "value" to a list if it's not already a list
-            if (value is not IReadOnlyList<object> list) list = new List<object> { value };
+    }
 
-            // Add the list to the dictionary
-            dictionary[key] = list;
+    /// <summary>
+    /// Sets a value to the keyed item, if it doesn't exist the key will be created.
+    /// </summary>
+    /// <param name="valueSet">The value set.</param>
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value to be added.</param>
+    public static void Set(this ValueSet valueSet, string key, object value) {
 
-            return true;
-
+        if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
+            throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
         }
+
+        // Convert "value" to a list if it's not already a list
+        if (value is not IReadOnlyList<object> list) list = new List<object> { value };
+
+        // Set the key in the dictionary (replace any existing value)
+        dictionary[key] = list;
+
+    }
+
+
+    /// <summary>
+    /// Attempts to add the specified <paramref name="value"/> to the item with <paramref name="key"/>, if the item does not already exist.
+    /// </summary>
+    /// <param name="valueSet">The value set.</param>
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value to be added.</param>
+    /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
+    public static bool TryAdd(this ValueSet valueSet, string key, object value) {
+
+        if (valueSet.Values.ContainsKey(key)) return false;
+
+        if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
+            throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
+        }
+
+        // Convert "value" to a list if it's not already a list
+        if (value is not IReadOnlyList<object> list) list = new List<object> { value };
+
+        // Add the list to the dictionary
+        dictionary.Add(key, list);
+
+        return true;
+
+    }
+
+    /// <summary>
+    /// Attempts to set the specified <paramref name="value"/> to the item with <paramref name="key"/>. If an item already exists with <paramref name="key"/>, the item will be replaced with the <paramref name="value"/>.
+    /// </summary>
+    /// <param name="valueSet">The value set.</param>
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value to be added.</param>
+    /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
+    public static bool TrySet(this ValueSet valueSet, string key, object value) {
+
+        if (valueSet.Values is not IDictionary<string, IReadOnlyList<object>> dictionary) {
+            throw new Exception($"'{nameof(valueSet.Values)}' is not an instance of '{typeof(IDictionary<string, IReadOnlyList<object>>)}'");
+        }
+
+        // Convert "value" to a list if it's not already a list
+        if (value is not IReadOnlyList<object> list) list = new List<object> { value };
+
+        // Add the list to the dictionary
+        dictionary[key] = list;
+
+        return true;
 
     }
 

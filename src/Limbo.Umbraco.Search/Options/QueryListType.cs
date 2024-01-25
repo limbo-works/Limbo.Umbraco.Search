@@ -1,20 +1,18 @@
-﻿namespace Limbo.Umbraco.Search.Options {
+﻿namespace Limbo.Umbraco.Search.Options;
+
+/// <summary>
+/// Enum class indicating the type of a <see cref="QueryList"/>.
+/// </summary>
+public enum QueryListType {
 
     /// <summary>
-    /// Enum class indicating the type of a <see cref="QueryList"/>.
+    /// Indicates that a <see cref="QueryList"/> should be <strong>AND</strong>-based.
     /// </summary>
-    public enum QueryListType {
+    And,
 
-        /// <summary>
-        /// Indicates that a <see cref="QueryList"/> should be <strong>AND</strong>-based.
-        /// </summary>
-        And,
-
-        /// <summary>
-        /// Indicates that a <see cref="QueryList"/> should be <strong>OR</strong>-based.
-        /// </summary>
-        Or
-
-    }
+    /// <summary>
+    /// Indicates that a <see cref="QueryList"/> should be <strong>OR</strong>-based.
+    /// </summary>
+    Or
 
 }
