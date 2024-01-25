@@ -120,6 +120,11 @@
         /// </summary>
         public const string BoostWords = "searchBoostWords";
 
+        /// <summary>
+        /// Gets the key of the field indicating the content date.
+        /// </summary>
+        public const string ContentDate = "contentDate";
+
     }
 
 }

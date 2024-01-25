@@ -30,6 +30,8 @@ namespace Limbo.Umbraco.Search.Extensions {
             ExamineFields.NodeName, ExamineFields.Title, ExamineFields.Teaser
         };
 
+        #region Public extension mehtods
+
         /// <summary>
         /// Attemps to get the first string value of a field with the specified <paramref name="key"/>.
         /// </summary>
@@ -40,6 +42,74 @@ namespace Limbo.Umbraco.Search.Extensions {
         public static bool TryGetString(this IndexingItemEventArgs e, string key, [NotNullWhen(true)] out string? value) {
             value = e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values) ? values.FirstOrDefault()?.ToString() : null;
             return value != null;
+        }
+
+        /// <summary>
+        /// Attempts to get the <see cref="DateTime"/> value of the field with the specified <paramref name="key"/>.
+        /// </summary>
+        /// <param name="e">The event arguments about the node being indexed.</param>
+        /// <param name="key">The key of the field.</param>
+        /// <param name="result">When this method returns, contains the <see cref="DateTime"/> value associated with the specified key, if the key is found and the value is already a <see cref="DateTime"/> instance or it can successfully be converted to a <see cref="DateTime"/> instance; otherwise, <see cref="DateTime.MinValue"/>. This parameter is passed uninitialized.</param>
+        /// <returns><see langword="true"/> if the value set contains a field with the specified key and the conversion is successful; otherwise, <see langword="false"/>.</returns>
+        public static bool TryGetDateTime(this IndexingItemEventArgs e, string key, out DateTime result) {
+
+            // Attempt to get the values of the specified field
+            if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) {
+                result = default;
+                return false;
+            }
+
+            // Get the first value of the field
+            switch (values.FirstOrDefault()) {
+
+                case DateTime dt:
+                    result = dt;
+                    return true;
+
+                case string str:
+                    return DateTime.TryParseExact(str, ExamineDateFormats.Umbraco, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out result);
+
+            }
+
+            result = default;
+            return false;
+
+        }
+
+        /// <summary>
+        /// Attempts to get the <see cref="DateTime"/> value of the field with the specified <paramref name="key"/>.
+        /// </summary>
+        /// <param name="e">The event arguments about the node being indexed.</param>
+        /// <param name="key">The key of the field.</param>
+        /// <param name="result">When this method returns, contains the <see cref="DateTime"/> value associated with the specified key, if the key is found and the value is already a <see cref="DateTime"/> instance or it can successfully be converted to a <see cref="DateTime"/> instance; otherwise, <see cref="DateTime.MinValue"/>. This parameter is passed uninitialized.</param>
+        /// <returns><see langword="true"/> if the value set contains a field with the specified key and the conversion is successful; otherwise, <see langword="false"/>.</returns>
+        public static bool TryGetDateTime(this IndexingItemEventArgs e, string key, out DateTime? result) {
+
+            // Attempt to get the values of the specified field
+            if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) {
+                result = default;
+                return false;
+            }
+
+            // Get the first value of the field
+            switch (values.FirstOrDefault()) {
+
+                case DateTime dt:
+                    result = dt;
+                    return true;
+
+                case string str:
+                    if (DateTime.TryParseExact(str, ExamineDateFormats.Umbraco, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out DateTime temp)) {
+                        result = temp;
+                        return true;
+                    }
+                    break;
+
+            }
+
+            result = default;
+            return false;
+
         }
 
         /// <summary>
@@ -573,6 +643,44 @@ namespace Limbo.Umbraco.Search.Extensions {
             return e;
         }
 
+        /// <summary>
+        /// Determines content date of the item and adds additonal fields for various formats to the item's value set.
+        /// </summary>
+        /// <param name="e">The event args for the item being indexed.</param>
+        /// <param name="fields">A list of field to look for - eg. <c>createDate</c> or <c>newsDate</c>.</param>
+        public static IndexingItemEventArgs IndexContentDate(this IndexingItemEventArgs e, IEnumerable<string> fields) {
+
+            foreach (string field in fields) {
+                if (TryGetDateTime(e, field, out DateTime dt)) {
+                    return IndexDateTime(e, ExamineFields.ContentDate, dt);
+                }
+            }
+
+            return e;
+
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="key"></param>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static IndexingItemEventArgs IndexDateTime(IndexingItemEventArgs e, string key, DateTime dateTime) {
+            e.ValueSet.TryAdd($"{key}_search", dateTime.ToString(ExamineDateFormats.Sortable));
+            e.ValueSet.TryAdd($"{key}_ticks", dateTime.Ticks.ToString());
+            e.ValueSet.TryAdd($"{key}_year", dateTime.Year);
+            e.ValueSet.TryAdd($"{key}_month", dateTime.Month);
+            e.ValueSet.TryAdd($"{key}_day", dateTime.Day);
+            e.ValueSet.TryAdd($"{key}_week", Iso8601Utils.GetWeekNumber(dateTime));
+            return e;
+        }
+
+        #endregion
+
+        #region Private helper methods
+
         private static bool TryParseDateTime(object? value, out DateTime result) {
 
             switch (value) {
@@ -592,14 +700,7 @@ namespace Limbo.Umbraco.Search.Extensions {
 
         }
 
-        private static void IndexDateTime(IndexingItemEventArgs e, string key, DateTime dateTime) {
-            e.ValueSet.TryAdd($"{key}_search", dateTime.ToString(ExamineDateFormats.Sortable));
-            e.ValueSet.TryAdd($"{key}_ticks", dateTime.Ticks.ToString());
-            e.ValueSet.TryAdd($"{key}_year", dateTime.Year);
-            e.ValueSet.TryAdd($"{key}_month", dateTime.Month);
-            e.ValueSet.TryAdd($"{key}_day", dateTime.Day);
-            e.ValueSet.TryAdd($"{key}_week", Iso8601Utils.GetWeekNumber(dateTime));
-        }
+        #endregion
 
     }
 
