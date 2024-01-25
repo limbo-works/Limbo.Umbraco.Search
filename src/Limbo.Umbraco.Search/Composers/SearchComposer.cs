@@ -10,6 +10,7 @@ namespace Limbo.Umbraco.Search.Composers;
 public class SearchComposer : IComposer {
 
     public void Compose(IUmbracoBuilder builder) {
+        builder.ManifestFilters().Append<SearchManifestFilter>();
         builder.Services.AddTransient<ISearchHelper, SearchHelper>();
         builder.Services.AddTransient<IIndexingHelper, IndexingHelper>();
     }
