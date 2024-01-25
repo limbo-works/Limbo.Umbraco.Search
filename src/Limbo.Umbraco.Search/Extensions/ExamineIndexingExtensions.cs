@@ -81,9 +81,9 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// </summary>
         /// <param name="e">The event arguments about the node being indexed.</param>
         /// <param name="key">The key of the field.</param>
-        /// <param name="result">When this method returns, contains the <see cref="DateTime"/> value associated with the specified key, if the key is found and the value is already a <see cref="DateTime"/> instance or it can successfully be converted to a <see cref="DateTime"/> instance; otherwise, <see cref="DateTime.MinValue"/>. This parameter is passed uninitialized.</param>
+        /// <param name="result">When this method returns, contains the <see cref="DateTime"/> value associated with the specified key, if the key is found and the value is already a <see cref="DateTime"/> instance or it can successfully be converted to a <see cref="DateTime"/> instance; otherwise, <see langword="null"/>. This parameter is passed uninitialized.</param>
         /// <returns><see langword="true"/> if the value set contains a field with the specified key and the conversion is successful; otherwise, <see langword="false"/>.</returns>
-        public static bool TryGetDateTime(this IndexingItemEventArgs e, string key, out DateTime? result) {
+        public static bool TryGetDateTime(this IndexingItemEventArgs e, string key, [NotNullWhen(true)] out DateTime? result) {
 
             // Attempt to get the values of the specified field
             if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) {
@@ -153,7 +153,7 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="key">The key of the field.</param>
         /// <param name="result">When this method returns, contains the value associated with the specified key, if the key is found; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
         /// <returns><c>true</c> if the value set contains a field with the specified key; otherwise, <c>false</c>.</returns>
-        public static bool TryGetInt32(this IndexingItemEventArgs e, string key, out int? result) {
+        public static bool TryGetInt32(this IndexingItemEventArgs e, string key, [NotNullWhen(true)] out int? result) {
 
             if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) {
                 result = default;
