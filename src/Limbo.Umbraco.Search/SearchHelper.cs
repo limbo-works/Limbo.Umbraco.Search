@@ -407,25 +407,6 @@ public class SearchHelper : ISearchHelper {
     }
 
     /// <summary>
-    /// Returns a <see cref="DateTime"/> parsed from the field with the specified <paramref name="key"/>.
-    /// </summary>
-    /// <param name="result">The result.</param>
-    /// <param name="key">The key of the field.</param>
-    /// <returns>An instance of <see cref="DateTime"/>.</returns>
-    public virtual DateTime GetSortValueByDateTime(ISearchResult result, string key) {
-        return SearchUtils.Sorting.GetSortValueByDateTime(result, key, _logger);
-    }
-
-    /// <summary>
-    /// Returns a <see cref="DateTime"/> parsed from the <c>contentDate</c> field, or <c>createDate</c> if nothing else is specified.
-    /// </summary>
-    /// <param name="result">The result.</param>
-    /// <returns>An instance of <see cref="DateTime"/>.</returns>
-    public virtual DateTime GetSortValueByContentDate(ISearchResult result) {
-        return SearchUtils.Sorting.GetSortValueByContentDate(result, _logger);
-    }
-
-    /// <summary>
     /// Returns the <see cref="ISearcher"/> as specified by the specified <paramref name="options"/>.
     ///
     /// If <paramref name="options"/> doesn't specify a searcher, the searcher of <c>ExternalIndex</c> will be used as fallback.
