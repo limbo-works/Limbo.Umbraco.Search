@@ -1,3 +1,23 @@
+<table>
+  <thead>
+    <tr>
+      <td align="left">
+        :warning:
+      </td>
+      <td align="left" width="100%">
+          <strong>NOTICE</strong>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="2">
+          <strong><code>v1.x</code></strong> for Umbraco 9 is no longer in active development.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 # Limbo Search
 
 **Limbo Search** is a package that we use internally a Limbo for making complex searches in Examine.
@@ -27,14 +47,10 @@ The package works only with Umbraco 9. For Umbraco 8, see our older [Skybrud.Umb
 
 .NET CLI:
 ```
-dotnet add package Limbo.Umbraco.Search --version 1.0.0-alpha004
+dotnet add package Limbo.Umbraco.Search --version
 ```
 
-Package Manager:
+NuGet Package Manager:
 ```
-Install-Package Limbo.Umbraco.Search -Version 1.0.0-alpha004
+Install-Package Limbo.Umbraco.Search -Version
 ```
-
-## Documentation
-
-*Hopefully coming soon...*
