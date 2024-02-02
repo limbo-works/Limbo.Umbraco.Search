@@ -47,10 +47,10 @@ The package works only with Umbraco 9. For Umbraco 8, see our older [Skybrud.Umb
 
 .NET CLI:
 ```
-dotnet add package Limbo.Umbraco.Search --version
+dotnet add package Limbo.Umbraco.Search --version 1.0.0
 ```
 
 NuGet Package Manager:
 ```
-Install-Package Limbo.Umbraco.Search -Version
+Install-Package Limbo.Umbraco.Search -Version 1.0.0
 ```
