@@ -7,8 +7,8 @@ using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Indexing;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json;
-using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Json.Newtonsoft;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Essentials.Strings;
 using Skybrud.Essentials.Time.Iso8601;
 using Umbraco.Cms.Core;
@@ -40,7 +40,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             value = e.ValueSet.Values.TryGetValue(key, out List<object> values) ? values.FirstOrDefault()?.ToString() : null;
             return value != null;
         }
-        
+
         /// <summary>
         /// Attempts to get the first value of the field with the specified <paramref name="key"/>. If the value is not already an <see cref="int"/>, the method will try to convert it.
         /// </summary>
@@ -108,7 +108,7 @@ namespace Limbo.Umbraco.Search.Extensions {
             }
 
         }
-        
+
         /// <summary>
         /// Adds a new field with <paramref name="key"/> and <paramref name="value"/> if the field does not already exist.
         /// </summary>
@@ -266,7 +266,7 @@ namespace Limbo.Umbraco.Search.Extensions {
 
         /// <summary>
         /// Adds a searchable version of the date value in the field with the specified <paramref name="key"/>.
-        /// 
+        ///
         /// The searchable value will be added in a new field using the <c>_range</c> prefix for the key (at it enables
         /// a ranged query) and the value will be formatted using the specified <paramref name="format"/>.
         /// </summary>
@@ -277,7 +277,7 @@ namespace Limbo.Umbraco.Search.Extensions {
 
             // Attempt to get the values of the specified field
             if (!e.ValueSet.Values.TryGetValue(key, out List<object> values)) return e;
-            
+
             // Try to parse the first value of the field
             if (TryParseDateTime(values.FirstOrDefault(), out DateTime dateTime)) return e;
 
@@ -453,12 +453,12 @@ namespace Limbo.Umbraco.Search.Extensions {
         /// <param name="e"></param>
         /// <param name="field">The key of the field that should have a lower cased version.</param>
         public static IndexingItemEventArgs AddLciField(this IndexingItemEventArgs e, string field) {
-            
+
             if (string.IsNullOrWhiteSpace(field)) throw new ArgumentNullException(nameof(field));
 
             // Skip non-content types
             if (e.ValueSet.Category != IndexTypes.Content) return e;
-            
+
             // Calculate the LCI key
             string lciKey = $"{field}_lci";
 
