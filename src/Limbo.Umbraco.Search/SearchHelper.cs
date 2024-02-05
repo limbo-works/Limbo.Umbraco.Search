@@ -430,7 +430,7 @@ public class SearchHelper : ISearchHelper {
                 break;
 
             default:
-                if (_examine.TryGetIndex(ExamineIndexes.ExternalIndexName, out IIndex index)) {
+                if (_examine.TryGetIndex(ExamineIndexes.ExternalIndex, out IIndex index)) {
                     searcher = index.Searcher;
                     if (searcher != null) return searcher;
                 }
