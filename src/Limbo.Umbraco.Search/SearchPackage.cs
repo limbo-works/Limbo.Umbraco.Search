@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Umbraco.Cms.Core.Semver;
 
-namespace Limbo.Umbraco.Search; 
+namespace Limbo.Umbraco.Search;
 
 /// <summary>
 /// Static class with various information and constants about the package.
