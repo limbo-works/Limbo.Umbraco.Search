@@ -30,7 +30,69 @@ public static class ExamineIndexingExtensions {
         ExamineFields.NodeName, ExamineFields.Title, ExamineFields.Teaser
     };
 
-    #region Public extension mehtods
+    #region Public extension methods
+
+    /// <summary>
+    /// Gets the first string value of the field with the specified <paramref name="key"/>. If field is found, but the
+    /// first value isn't already a string, the value will be converted to a string. If a matching field isn't found,
+    /// <see langword="null"/> is returned instead.
+    /// </summary>
+    /// <param name="e">The event arguments about the node being indexed.</param>
+    /// <param name="key">The key of the field.</param>
+    /// <returns>A <see cref="string"/> value if successsful; otherwise; <see langword="null"/>.</returns>
+    public static string? GetString(this IndexingItemEventArgs e, string key) {
+        return TryGetString(e, key, out string? value) ? value : null;
+    }
+
+    /// <summary>
+    /// Gets the first integer value of the field with the specified <paramref name="key"/>. If field is found, but the
+    /// first value isn't already an integer, the value will be converted to an integer. If a matching field isn't found,
+    /// <c>0</c> is returned instead.
+    /// </summary>
+    /// <param name="e">The event arguments about the node being indexed.</param>
+    /// <param name="key">The key of the field.</param>
+    /// <returns>A <see cref="string"/> value if successsful; otherwise; <c>0</c>.</returns>
+    public static int GetInt32(this IndexingItemEventArgs e, string key) {
+        return TryGetInt32(e, key, out int value) ? value : 0;
+    }
+
+    /// <summary>
+    /// Gets the first integer value of the field with the specified <paramref name="key"/>. If field is found, but the
+    /// first value isn't already an integer, the value will be converted to an integer. If a matching field isn't found,
+    /// <see langword="null"/> is returned instead.
+    /// </summary>
+    /// <param name="e">The event arguments about the node being indexed.</param>
+    /// <param name="key">The key of the field.</param>
+    /// <returns>A <see cref="string"/> value if successsful; otherwise; <see langword="null"/>.</returns>
+    public static int? GetInt32OrNull(this IndexingItemEventArgs e, string key) {
+        return TryGetInt32(e, key, out int? value) ? value : null;
+    }
+
+    /// <summary>
+    /// Gets the first <see cref="DateTime"/> value from the field with the specified <paramref name="key"/>. If a
+    /// matching field is found, but the value isn't already a <see cref="DateTime"/>, the method will attempt to parse
+    /// the value into a <see cref="DateTime"/> value. If a matching field isn't found, or the value can't be parsed to
+    /// a <see cref="DateTime"/> instance, <see cref="DateTime.MinValue"/> is returned instead.
+    /// </summary>
+    /// <param name="e">The event arguments about the node being indexed.</param>
+    /// <param name="key">The key of the field.</param>
+    /// <returns>A <see cref="DateTime"/> value if successsful; otherwise; <see cref="DateTime.MinValue"/>.</returns>
+    public static DateTime GetDateTime(this IndexingItemEventArgs e, string key) {
+        return TryGetDateTime(e, key, out DateTime value) ? value : DateTime.MinValue;
+    }
+
+    /// <summary>
+    /// Gets the first <see cref="DateTime"/> value from the field with the specified <paramref name="key"/>. If a
+    /// matching field is found, but the value isn't already a <see cref="DateTime"/>, the method will attempt to parse
+    /// the value into a <see cref="DateTime"/> value. If a matching field isn't found, or the value can't be parsed to
+    /// a <see cref="DateTime"/> instance, <see langword="null"/> is returned instead.
+    /// </summary>
+    /// <param name="e">The event arguments about the node being indexed.</param>
+    /// <param name="key">The key of the field.</param>
+    /// <returns>A <see cref="DateTime"/> value if successsful; otherwise; <see langword="null"/>.</returns>
+    public static DateTime? GetDateTimeOrNull(this IndexingItemEventArgs e, string key) {
+        return TryGetDateTime(e, key, out DateTime? value) ? value : null;
+    }
 
     /// <summary>
     /// Attemps to get the first string value of a field with the specified <paramref name="key"/>.
