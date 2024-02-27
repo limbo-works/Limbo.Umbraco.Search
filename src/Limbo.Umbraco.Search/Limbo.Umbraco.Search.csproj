@@ -1,27 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6</TargetFramework>
-    <LangVersion>11.0</LangVersion>
+    <TargetFramework>net8</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>2.0.0-alpha008</VersionPrefix>
+    <VersionPrefix>13.0.0-alpha000</VersionPrefix>
     <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Product>Limbo Search</Product>
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © $([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
     <Title>Limbo Search</Title>
-    <Description>Search package for Umbraco 10+.</Description>
+    <Description>Search package for Umbraco 13.</Description>
   </PropertyGroup>
 
   <!-- Information for the NuGet package -->
   <PropertyGroup>
     <PackageTags>Skybrud, Limbo, Umbraco, Examine, Search</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.search/v2/</PackageProjectUrl>
+    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.search/v13/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Search</RepositoryUrl>
@@ -30,8 +29,8 @@
   <ItemGroup>
     <PackageReference Include="Skybrud.Essentials" Version="1.1.56" />
     <PackageReference Include="Skybrud.Essentials.AspNetCore" Version="1.0.0" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="[10.0.0,12.999)" />
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[10.0.0,12.999)" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="[13.0.0,13.999)" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[13.0.0,13.999)" />
   </ItemGroup>
 
   <!-- Include package icon for the NuGet package -->

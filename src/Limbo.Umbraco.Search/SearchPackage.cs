@@ -49,6 +49,6 @@ public static class SearchPackage {
     /// <summary>
     /// Gets the URL of the documentation for this package.
     /// </summary>
-    public const string DocumentationUrl = "https://packages.limbo.works/limbo.umbraco.search/";
+    public const string DocumentationUrl = "https://packages.limbo.works/limbo.umbraco.search/docs/v13/";
 
 }

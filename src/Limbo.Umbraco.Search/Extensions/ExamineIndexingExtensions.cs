@@ -339,7 +339,7 @@ public static class ExamineIndexingExtensions {
         List<string> newValues = new();
         foreach (string piece in StringUtils.ParseStringArray(value)) {
             if (UdiParser.TryParse(piece, out GuidUdi? udi)) {
-                newValues.Add(udi!.Guid.ToString("N"));
+                newValues.Add(udi.Guid.ToString("N"));
                 newValues.Add(udi.Guid.ToString("D"));
             } else {
                 newValues.Add(piece.Split('/').Last());
