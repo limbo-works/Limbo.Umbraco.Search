@@ -29,16 +29,16 @@
 
 The package works only with Umbraco 10-12. For Umbraco 9, see the [`v1/main` branch](https://github.com/limbo-works/Limbo.Umbraco.Search/tree/v1/main). For Umbraco 8, see our older [Skybrud.Umbraco.Search](https://github.com/skybrud/Skybrud.Umbraco.Search) package.
 
-#### Via [NuGet](https://www.nuget.org/packages/Limbo.Umbraco.Search/2.0.0-alpha008):
+#### Via [NuGet](https://www.nuget.org/packages/Limbo.Umbraco.Search/2.0.0-alpha009):
 
 .NET CLI:
 ```
-dotnet add package Limbo.Umbraco.Search --version 2.0.0-alpha008
+dotnet add package Limbo.Umbraco.Search --version 2.0.0-alpha009
 ```
 
 NuGet Package Manager:
 ```
-Install-Package Limbo.Umbraco.Search -Version 2.0.0-alpha008
+Install-Package Limbo.Umbraco.Search -Version 2.0.0-alpha009
 ```
 
 <br /><br /><br />
