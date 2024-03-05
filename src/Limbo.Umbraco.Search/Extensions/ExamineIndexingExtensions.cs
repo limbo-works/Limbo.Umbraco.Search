@@ -298,6 +298,17 @@ public static class ExamineIndexingExtensions {
     /// <param name="e">The event arguments about the node being indexed.</param>
     /// <param name="key">The key of the field to make searchable.</param>
     public static IndexingItemEventArgs IndexCsv(this IndexingItemEventArgs e, string key) {
+        return IndexCsv(e, key, $"{key}_search");
+    }
+
+    /// <summary>
+    /// If a field with <paramref name="key"/> exists, a new field in which commas in the value has been replaced
+    /// by spaces, making each value searchable.
+    /// </summary>
+    /// <param name="e">The event arguments about the node being indexed.</param>
+    /// <param name="key">The key of the field to make searchable.</param>
+    /// <param name="newKey">The key of the new field.</param>
+    public static IndexingItemEventArgs IndexCsv(this IndexingItemEventArgs e, string key, string newKey) {
 
         // Attempt to get the values of the specified field
         if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) return e;
@@ -307,7 +318,7 @@ public static class ExamineIndexingExtensions {
         if (string.IsNullOrWhiteSpace(value)) return e;
 
         // Added the searchable value to the index
-        e.ValueSet.TryAdd($"{key}_search", value);
+        e.ValueSet.TryAdd(newKey, value);
 
         return e;
 
@@ -337,9 +348,6 @@ public static class ExamineIndexingExtensions {
     /// Specifically the method will look for any GUID based UDI's, and then format the GUIDs to formats <c>N</c>
     /// and <c>D</c> - that is <c>00000000000000000000000000000000</c> and
     /// <c>00000000-0000-0000-0000-000000000000</c>. The type of the reference entity is not added to the new field.
-    ///
-    /// The key of the new field will use <c>_search</c> as suffix - eg. if <paramref name="key"/> is
-    /// <c>related</c>, the new field will have the key <c>related_search</c>.
     /// </summary>
     /// <param name="e">The event arguments about the node being indexed.</param>
     /// <param name="key">The key of the field to make searchable.</param>

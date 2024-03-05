@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Examine;
 using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Extensions;
 
@@ -141,7 +142,7 @@ public static class QueryListExtensions {
     /// <param name="field">The key of the field. If </param>
     /// <param name="ids">The IDs to search for.</param>
     /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexCsv"/> methods.</remarks>
+    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexCsv(IndexingItemEventArgs,string)"/> methods.</remarks>
     [return: NotNullIfNotNull("list")]
     public static T? AppendIds<T>(this T? list, string field, IEnumerable<int>? ids) where T : QueryList {
 
@@ -175,7 +176,7 @@ public static class QueryListExtensions {
     /// <param name="field">The key of the field. If set to <c>keys</c>, the searched field will be <c>keys_search</c>.</param>
     /// <param name="guids">The GUID values to search for.</param>
     /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexCsv"/> or <see cref="ExamineIndexingExtensions.IndexUdis"/> methods.</remarks>
+    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexCsv(IndexingItemEventArgs,string)"/> or <see cref="ExamineIndexingExtensions.IndexUdis(IndexingItemEventArgs,string)"/> methods.</remarks>
     [return: NotNullIfNotNull("list")]
     public static T? AppendGuids<T>(this T? list, string field, IEnumerable<Guid>? guids) where T : QueryList {
 
