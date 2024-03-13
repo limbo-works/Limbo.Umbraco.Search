@@ -314,7 +314,15 @@ public static class ExamineIndexingExtensions {
         if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) return e;
 
         // Get the first value and replace all commas with an empty space
-        string? value = values.FirstOrDefault()?.ToString()?.Replace(',', ' ');
+        string? value = values
+            .FirstOrDefault()?
+            .ToString()?
+            .Replace(',', ' ')
+            .Replace('[', ' ')
+            .Replace(']', ' ')
+            .Replace('"', ' ');
+
+        // Ignore if null, empty or white space
         if (string.IsNullOrWhiteSpace(value)) return e;
 
         // Added the searchable value to the index
