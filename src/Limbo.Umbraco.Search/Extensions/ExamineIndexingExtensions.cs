@@ -488,6 +488,36 @@ public static class ExamineIndexingExtensions {
     }
 
     /// <summary>
+    /// Adds additional fields to make the date and time of the field with the specified <paramref name="key"/> more searchable.
+    /// </summary>
+    /// <param name="e">The event args for the item being indexed.</param>
+    /// <param name="key">The key of the field holding the date and time.</param>
+    /// <param name="callback">A callback method used for adjusting the parsed <see cref="DateTime"/> instance.</param>
+    public static IndexingItemEventArgs IndexDateExtended(this IndexingItemEventArgs e, string key, Func<DateTime, DateTime> callback) {
+
+        // Attempt to get the values of the specified field
+        if (!e.ValueSet.Values.TryGetValue(key, out IReadOnlyList<object>? values)) return e;
+
+        // Get the first value of the field
+        switch (values.FirstOrDefault()) {
+
+            case DateTime dt:
+                IndexDateTime(e, key, callback(dt));
+                break;
+
+            case string str:
+                if (DateTime.TryParseExact(str, ExamineDateFormats.Umbraco, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out DateTime dt2)) {
+                    IndexDateTime(e, key, callback(dt2));
+                }
+                break;
+
+        }
+
+        return e;
+
+    }
+
+    /// <summary>
     /// Adds a textual representation of the block list value from property with the specified <paramref name="key"/>.
     /// </summary>
     /// <param name="e"></param>

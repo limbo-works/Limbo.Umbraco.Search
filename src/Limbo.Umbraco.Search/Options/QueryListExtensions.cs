@@ -210,7 +210,7 @@ public static class QueryListExtensions {
     /// <param name="min">The minimum date to search by. Uses <see cref="DateTime.MinValue"/> as fallback if specified value is <see langword="null"/>.</param>
     /// <param name="max">The maximum date to search by. Uses <see cref="DateTime.MaxValue"/> as fallback if specified value is <see langword="null"/>.</param>
     /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended"/> methods.</remarks>
+    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended(IndexingItemEventArgs,string)"/> methods.</remarks>
     [return: NotNullIfNotNull("list")]
     public static T? AppendDateRange<T>(this T? list, string field, DateTime? min, DateTime? max) where T : QueryList {
         string minValue = (min ?? DateTime.MinValue).ToString(ExamineDateFormats.Sortable, CultureInfo.InvariantCulture);
@@ -227,7 +227,7 @@ public static class QueryListExtensions {
     /// <param name="field">The key of the field. If set to <c>contentDate</c>, the searched field will be <c>contentDate_year</c>.</param>
     /// <param name="year">The year to search for.</param>
     /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended"/> methods.</remarks>
+    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended(IndexingItemEventArgs,string)"/> methods.</remarks>
     [return: NotNullIfNotNull("list")]
     public static T? AppendDateYear<T>(this T? list, string field, int year) where T : QueryList {
         list?.Add($"{field}_search:[{year} TO {year}]");
@@ -242,7 +242,7 @@ public static class QueryListExtensions {
     /// <param name="field">The key of the field. If set to <c>contentDate</c>, the searched field will be <c>contentDate_year</c>.</param>
     /// <param name="date">A date representing the year to search for.</param>
     /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended"/> methods.</remarks>
+    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended(IndexingItemEventArgs,string)"/> methods.</remarks>
     [return: NotNullIfNotNull("list")]
     public static T? AppendDateYear<T>(this T? list, string field, DateTime date) where T : QueryList {
         return AppendDateYear(list, field, date.Year);
@@ -257,7 +257,7 @@ public static class QueryListExtensions {
     /// <param name="min">The minimum date to search by. Uses <see cref="DateTime.MinValue"/> as fallback if specified value is <see langword="null"/>.</param>
     /// <param name="max">The maximum date to search by. Uses <see cref="DateTime.MaxValue"/> as fallback if specified value is <see langword="null"/>.</param>
     /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended"/> methods.</remarks>
+    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended(IndexingItemEventArgs,string)"/> methods.</remarks>
     [return: NotNullIfNotNull("list")]
     public static T? AppendDateYearRange<T>(this T? list, string field, int? min, int? max) where T : QueryList {
         list?.Add($"{field}_search:[{min ?? 0} TO {max ?? 9999}]");
@@ -273,7 +273,7 @@ public static class QueryListExtensions {
     /// <param name="min">The minimum date to search by. Uses <see cref="DateTime.MinValue"/> as fallback if specified value is <see langword="null"/>.</param>
     /// <param name="max">The maximum date to search by. Uses <see cref="DateTime.MaxValue"/> as fallback if specified value is <see langword="null"/>.</param>
     /// <returns><paramref name="list"/> - useful for method chaining.</returns>
-    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended"/> methods.</remarks>
+    /// <remarks>Use together with the <see cref="ExamineIndexingExtensions.IndexDateExtended(IndexingItemEventArgs,string)"/> methods.</remarks>
     [return: NotNullIfNotNull("list")]
     public static T? AppendDateYearRange<T>(this T? list, string field, DateTime? min, DateTime? max) where T : QueryList {
         return AppendDateYearRange(list, field, min?.Year, max?.Year);
