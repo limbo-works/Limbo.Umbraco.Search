@@ -2,6 +2,6 @@
 redirect: ./getting-started/
 ---
 
-# Version 2
+# Version 10
 
 Hej
