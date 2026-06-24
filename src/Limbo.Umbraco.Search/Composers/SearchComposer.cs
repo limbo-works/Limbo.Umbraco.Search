@@ -11,10 +11,9 @@ namespace Limbo.Umbraco.Search.Composers;
 public class SearchComposer : IComposer {
 
     public void Compose(IUmbracoBuilder builder) {
-        // [CHANGE: Umbraco 17 upgrade - ManifestFilters() removed, register IPackageManifestReader instead] Related: SearchPackageManifestReader.cs, Limbo.Umbraco.Search.csproj
-        builder.Services.AddTransient<IPackageManifestReader, SearchPackageManifestReader>();
-        builder.Services.AddTransient<ISearchHelper, SearchHelper>();
-        builder.Services.AddTransient<IIndexingHelper, IndexingHelper>();
+        builder.Services.AddSingleton<IPackageManifestReader, SearchPackageManifestReader>();
+        builder.Services.AddSingleton<ISearchHelper, SearchHelper>();
+        builder.Services.AddSingleton<IIndexingHelper, IndexingHelper>();
     }
 
 }
