@@ -3,13 +3,10 @@ using System.Threading.Tasks;
 using Umbraco.Cms.Core.Manifest;
 using Umbraco.Cms.Infrastructure.Manifest;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 namespace Limbo.Umbraco.Search;
 
-// [CHANGE: Umbraco 17 upgrade - IManifestFilter removed in Umbraco 14+, replaced by IPackageManifestReader] Related: Composers/SearchComposer.cs, Limbo.Umbraco.Search.csproj
-/// <summary>
-/// Package manifest reader used to identify the package (e.g. for telemetry). This replaces the
-/// <c>IManifestFilter</c> approach used prior to Umbraco 14, which was removed alongside the new backoffice.
-/// </summary>
 public class SearchPackageManifestReader : IPackageManifestReader {
 
     /// <inheritdoc />
@@ -24,7 +21,7 @@ public class SearchPackageManifestReader : IPackageManifestReader {
             Extensions = []
         };
 
-        return Task.FromResult<IEnumerable<PackageManifest>>(new[] { manifest });
+        return Task.FromResult<IEnumerable<PackageManifest>>([manifest]);
 
     }
 

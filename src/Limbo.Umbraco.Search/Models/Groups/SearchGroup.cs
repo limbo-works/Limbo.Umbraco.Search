@@ -11,7 +11,7 @@ public class SearchGroup {
 
     /// <summary>
     /// Gets the numeric ID of the group. The ID should primarily be used in the communication between the frontend
-    /// and the backend API - eg. to indicate which groups should be shown or which groups have been selected by
+    /// and the backend API - e.g. to indicate which groups should be shown or which groups have been selected by
     /// the user.
     /// </summary>
     public int Id { get; }
@@ -24,7 +24,7 @@ public class SearchGroup {
 
     /// <summary>
     /// Gets the type of the group. The type may be used to indicate the type of results that are returned in this
-    /// group - eg. a site may have a one group for regular news articles and another for press releases, but if
+    /// group - e.g. a site may have a one group for regular news articles and another for press releases, but if
     /// they should be rendered the same way, they could share a common value for this property.
     /// </summary>
     public string? Type { get; }

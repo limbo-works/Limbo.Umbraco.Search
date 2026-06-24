@@ -10,7 +10,6 @@ using Examine;
 using Examine.Lucene.Providers;
 using Examine.Lucene.Search;
 using Examine.Search;
-using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Models;
 using Limbo.Umbraco.Search.Models.Groups;
 using Limbo.Umbraco.Search.Options;
@@ -20,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Skybrud.Essentials.AspNetCore;
 using Skybrud.Essentials.Collections;
+using Skybrud.Essentials.Umbraco.Examine;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Extensions;
@@ -83,7 +83,7 @@ public class SearchHelper : ISearchHelper {
     /// Performs a search using the specified <paramref name="sortOptions"/>.
     /// </summary>
     /// <param name="operation">The boolean operation the search should be based on.</param>
-    /// <param name="sortOptions">The sort options specyfing how the results should be sorted.</param>
+    /// <param name="sortOptions">The sort options specifying how the results should be sorted.</param>
     /// <param name="results">The results of the search.</param>
     /// <param name="total">The total amount of results returned by the search.</param>
     protected virtual void Execute(IBooleanOperation operation, ISortOptions sortOptions, out IEnumerable<ISearchResult> results, out long total) {
@@ -91,24 +91,13 @@ public class SearchHelper : ISearchHelper {
         // Cast the boolean operation to IQueryExecutor
         IQueryExecutor executor = operation;
 
-        // If "SortField" doesn't specified, we don't apply any sorting
+        // If "SortField" doesn't specify, we don't apply any sorting
         if (!string.IsNullOrWhiteSpace(sortOptions.SortField)) {
-
-            switch (sortOptions.SortOrder) {
-
-                case SortOrder.Ascending:
-                    executor = operation.OrderBy(new SortableField(sortOptions.SortField, sortOptions.SortType));
-                    break;
-
-                case SortOrder.Descending:
-                    executor = operation.OrderByDescending(new SortableField(sortOptions.SortField, sortOptions.SortType));
-                    break;
-
-                default:
-                    throw new Exception($"Unsupported sort order: {sortOptions.SortOrder}");
-
-            }
-
+            executor = sortOptions.SortOrder switch {
+                SortOrder.Ascending => operation.OrderBy(new SortableField(sortOptions.SortField, sortOptions.SortType)),
+                SortOrder.Descending => operation.OrderByDescending(new SortableField(sortOptions.SortField, sortOptions.SortType)),
+                _ => throw new Exception($"Unsupported sort order: {sortOptions.SortOrder}")
+            };
         }
 
         if (sortOptions is IOffsetOptions offset) {
@@ -119,9 +108,7 @@ public class SearchHelper : ISearchHelper {
             total = allResults.TotalItemCount;
 
             // Apply limit and offset
-            results = allResults
-                .Skip(offset.Offset)
-                .Take(offset.Limit);
+            results = allResults.Skip(offset.Offset).Take(offset.Limit);
 
         } else {
 
@@ -143,7 +130,7 @@ public class SearchHelper : ISearchHelper {
     /// Performs a search using the specified <paramref name="options"/>.
     /// </summary>
     /// <param name="operation">The boolean operation the search should be based on.</param>
-    /// <param name="options">The options specyfing how the results should be sorted.</param>
+    /// <param name="options">The options specifying how the results should be sorted.</param>
     /// <param name="results">The results of the search.</param>
     /// <param name="total">The total amount of results returned by the search.</param>
     protected virtual void Execute(IBooleanOperation operation, ISearchOptions options, out IEnumerable<ISearchResult> results, out long total) {
@@ -163,7 +150,7 @@ public class SearchHelper : ISearchHelper {
         // If "options" implements the interface, results are sorted using the "Sort" method
         if (options is IPostSortOptions postSort) results = postSort.Sort(results, _logger);
 
-        // If "options" implements implement the interface, the results are paginated
+        // If "options" implements the interface, the results are paginated
         if (options is IOffsetOptions offset) results = results.Skip(offset.Offset).Take(offset.Limit);
 
     }
@@ -300,32 +287,22 @@ public class SearchHelper : ISearchHelper {
     /// Converts the specified <paramref name="result"/> into an instance of <see cref="IPublishedContent"/>.
     ///
     /// The method will look at the <c>__IndexType</c> to determine the type of the result, and then use the
-    /// relevant published cache (eg. content or media) to lookup the <see cref="IPublishedContent"/> equivalent of
+    /// relevant published cache (e.g. content or media) to look up the <see cref="IPublishedContent"/> equivalent of
     /// <paramref name="result"/>.
     /// </summary>
     /// <param name="result">The result to look up.</param>
     /// <returns>An instance of <see cref="IPublishedContent"/>.</returns>
     protected virtual IPublishedContent? GetPublishedContentFromResult(ISearchResult result) {
-
         string? indexType = result.GetValues("__IndexType").FirstOrDefault();
-        if (_umbracoContextAccessor.TryGetUmbracoContext(out var umbracoContext)) {
-            switch (indexType) {
-
-                case "content":
-                    return umbracoContext.Content?.GetById(int.Parse(result.Id));
-
-                case "media":
-                case "pdf":
-                    return umbracoContext.Media?.GetById(int.Parse(result.Id));
-
-                default:
-                    return null;
-
-            }
+        if (_umbracoContextAccessor.TryGetUmbracoContext(out IUmbracoContext? umbracoContext)) {
+            return indexType switch {
+                "content" => umbracoContext.Content.GetById(int.Parse(result.Id)),
+                "media" or "pdf" => umbracoContext.Media.GetById(int.Parse(result.Id)),
+                _ => null
+            };
         }
         _logger.LogError("Failed to get Umbraco context");
         return null;
-
     }
 
     /// <summary>

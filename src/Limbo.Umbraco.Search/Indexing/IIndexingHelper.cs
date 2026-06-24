@@ -6,7 +6,7 @@ using Umbraco.Cms.Core.Models.PublishedContent;
 namespace Limbo.Umbraco.Search.Indexing;
 
 /// <summary>
-/// Interface describin a helper class to aid in various indexing tasks.
+/// Interface describing a helper class to aid in various indexing tasks.
 /// </summary>
 public interface IIndexingHelper {
 

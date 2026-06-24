@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Examine;
 using Examine.Search;
-using Limbo.Umbraco.Search.Constants;
 using Limbo.Umbraco.Search.Options.Fields;
+using Skybrud.Essentials.Umbraco.Examine;
 
 namespace Limbo.Umbraco.Search.Options;
 
@@ -46,7 +46,7 @@ public class SearchOptionsBase : IGetSearcherOptions, IDebugSearchOptions {
     /// </summary>
     public SearchOptionsBase() {
         Text = string.Empty;
-        RootIds = new List<int>();
+        RootIds = [];
     }
 
     #endregion
@@ -78,7 +78,7 @@ public class SearchOptionsBase : IGetSearcherOptions, IDebugSearchOptions {
     /// Returns the <see cref="QueryList"/> to be used for search.
     /// </summary>
     /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
-    /// <returns>An insdtance of <see cref="QueryList"/>.</returns>
+    /// <returns>An instance of <see cref="QueryList"/>.</returns>
     protected internal virtual QueryList GetQueryList(ISearchHelper searchHelper) {
 
         QueryList query = new();
@@ -98,11 +98,11 @@ public class SearchOptionsBase : IGetSearcherOptions, IDebugSearchOptions {
     /// <param name="helper"></param>
     /// <returns>An instance of <see cref="FieldList"/>.</returns>
     protected internal virtual FieldList GetTextFields(ISearchHelper helper) {
-        return new FieldList {
-            new("nodeName", 50),
-            new("title", 40),
-            new("teaser", 20)
-        };
+        return [
+            new Field("nodeName", 50),
+            new Field("title", 40),
+            new Field("teaser", 20)
+        ];
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public class SearchOptionsBase : IGetSearcherOptions, IDebugSearchOptions {
 
         // Fallback if no fields are added
         FieldList fields = GetTextFields(searchHelper);
-        if (fields.Count == 0) fields = FieldList.GetFromStringArray(new[] { "nodeName_lci", "contentTeasertext_lci", "contentBody_lci" });
+        if (fields.Count == 0) fields = FieldList.GetFromStringArray(["nodeName", "title", "teaser"]);
 
         // Are leading wildcards allowed/enabled?
         // ReSharper disable once SuspiciousTypeConversion.Global
@@ -147,12 +147,12 @@ public class SearchOptionsBase : IGetSearcherOptions, IDebugSearchOptions {
         return Regex.Replace(text, @"[^\wæøåÆØÅ\-@\. ]", string.Empty)
             .ToLowerInvariant()
             .Trim()
-            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            .Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
     }
 
     /// <summary>
-    /// Virtual method for limiting the search to specifi ancestors.
+    /// Virtual method for limiting the search to specific ancestors.
     /// </summary>
     /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
     /// <param name="query">The query.</param>
@@ -172,13 +172,13 @@ public class SearchOptionsBase : IGetSearcherOptions, IDebugSearchOptions {
     }
 
     /// <summary>
-    /// Virtual method for getting a searcher by it's parent <paramref name="indexName"/>.
+    /// Virtual method for getting a searcher by its parent <paramref name="indexName"/>.
     /// </summary>
     /// <param name="examineManager">A reference to the current <see cref="IExamineManager"/>.</param>
     /// <param name="searchHelper">A reference to the current <see cref="ISearchHelper"/>.</param>
     /// <param name="indexName">The name of the parent index.</param>
     /// <returns>An instance of <see cref="ISearcher"/>.</returns>
-    /// <exception cref="Exception">If a mathing index isn't found, or the index doesn't specify a searcher, this method will throw an exception.</exception>
+    /// <exception cref="Exception">If a matching index isn't found, or the index doesn't specify a searcher, this method will throw an exception.</exception>
     protected virtual ISearcher GetSearcherByIndexName(IExamineManager examineManager, ISearchHelper searchHelper, string indexName) {
 
         // Get the index from the Examine manager
