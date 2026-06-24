@@ -7,14 +7,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>17.0.0-alpha001</VersionPrefix>
+    <VersionPrefix>17.0.0-alpha000</VersionPrefix>
     <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Product>Limbo Search</Product>
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © $([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
     <Title>Limbo Search</Title>
-    <Description>Search package for Umbraco 17+.</Description>
+    <Description>Search package for Umbraco 17.</Description>
   </PropertyGroup>
 
   <!-- Information for the NuGet package -->
